@@ -3,7 +3,6 @@ import "./App.css";
 import TodoList from "./components/TodoList";
 
 function App() {
-  const [todos, setTodos] = useState([{ title: "lklk", id: 23 }]);
   const [newTodo, setNewTodo] = useState("");
   const [updateMode, setUpdateMode] = useState(false);
   // console.log(newTodo);
@@ -34,7 +33,7 @@ function App() {
           />
           <button onClick={() => addTodo(newTodo)}>Add</button>
         </section>
-        <TodoList todos={todos} />
+        <TodoList />
       </div>
     </>
   );

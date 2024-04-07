@@ -1,4 +1,5 @@
 npm run dev
+
 features:
 user can do all the crud operations
 
@@ -14,3 +15,7 @@ todo:
 
 good to have:
 priority lable
+
+npm i @reduxjs/toolkit
+npm i react-redux
+npm i redux-persist
