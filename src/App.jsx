@@ -1,24 +1,20 @@
 import { useState } from "react";
 import "./App.css";
 import TodoList from "./components/TodoList";
+import { useDispatch } from "react-redux";
+import { addTodo } from "./redux/todo/todoSlice";
 
 function App() {
   const [newTodo, setNewTodo] = useState("");
   const [updateMode, setUpdateMode] = useState(false);
+  const dispatch = useDispatch();
   // console.log(newTodo);
 
-  function addTodo(title) {
-    setTodos((currentTodos) => {
-      return [{ id: crypto.randomUUID(), title }, ...currentTodos];
-    });
+  function createTodo() {
+    dispatch(addTodo({ id: crypto.randomUUID(), title: newTodo }));
     setNewTodo("");
   }
 
-  function deleteTodo(id) {
-    setTodos((currentTodos) => {
-      return currentTodos.filter((todo) => todo.id !== id);
-    });
-  }
   // console.log(todos);
 
   return (
@@ -31,7 +27,7 @@ function App() {
             value={newTodo}
             onChange={(e) => setNewTodo(e.target.value)} //?
           />
-          <button onClick={() => addTodo(newTodo)}>Add</button>
+          <button onClick={() => createTodo()}>Add</button>
         </section>
         <TodoList />
       </div>
