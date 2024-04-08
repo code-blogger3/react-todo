@@ -6,16 +6,14 @@ import { addTodo } from "./redux/todo/todoSlice";
 
 function App() {
   const [newTodo, setNewTodo] = useState("");
-  const [updateMode, setUpdateMode] = useState(false);
   const dispatch = useDispatch();
-  // console.log(newTodo);
 
   function createTodo() {
-    dispatch(addTodo({ id: crypto.randomUUID(), title: newTodo }));
+    dispatch(
+      addTodo({ id: crypto.randomUUID(), title: newTodo, completed: false })
+    );
     setNewTodo("");
   }
-
-  // console.log(todos);
 
   return (
     <>
@@ -25,7 +23,7 @@ function App() {
             type="text"
             placeholder="Enter task"
             value={newTodo}
-            onChange={(e) => setNewTodo(e.target.value)} //?
+            onChange={(e) => setNewTodo(e.target.value)}
           />
           <button onClick={() => createTodo()}>Add</button>
         </section>

@@ -1,17 +1,17 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Todo from "./Todo";
 import { useSelector } from "react-redux";
 
 function TodoList() {
   const { todos } = useSelector((state) => state.todo);
-  function deleteTodo(id) {
-    setTodos((currentTodos) => {
-      return currentTodos.filter((todo) => todo.id !== id);
-    });
-  }
+  const [todosList, setTodoList] = useState(todos);
+  useEffect(() => {
+    setTodoList(todos);
+  }, [todos]);
+
   return (
     <section className="mt-6">
-      {todos?.map((todo) => (
+      {todosList?.map((todo) => (
         <Todo todo={todo} />
       ))}
     </section>
