@@ -24,9 +24,6 @@ function Todo({ todo }) {
     setCompleted((prev) => !prev);
     dispatch(toggleTodo({ id: todo?.id, completed: !completed }));
   };
-  useEffect(() => {
-    setCompleted(todo?.completed);
-  }, [todo]);
 
   return (
     <>
@@ -36,7 +33,7 @@ function Todo({ todo }) {
             type="text"
             className="border-sky-400"
             value={editTodoValue}
-            onChange={handleToggle}
+            onChange={(e) => setEditTodoValue(e.target.value)}
           />
           <span className="flex gap-2">
             <button onClick={() => editTodo(editTodoValue)}>Save</button>
@@ -51,7 +48,7 @@ function Todo({ todo }) {
             <input
               type="checkbox"
               checked={completed}
-              onChange={() => setCompleted((prev) => !prev)}
+              onChange={handleToggle}
             />
             <span className={`p-3 ${completed ? "line-through" : ""}`}>
               {todo?.title}
