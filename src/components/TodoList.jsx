@@ -12,7 +12,7 @@ function TodoList() {
   return (
     <section className="mt-6">
       {todosList?.map((todo) => (
-        <Todo todo={todo} />
+        <Todo todo={todo} key={todo?.id} />
       ))}
     </section>
   );

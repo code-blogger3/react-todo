@@ -10,7 +10,7 @@ function App() {
 
   function createTodo() {
     dispatch(
-      addTodo({ id: crypto.randomUUID(), title: newTodo, completed: false })
+      addTodo({ id: crypto.randomUUID(), title: newTodo, completed: true })
     );
     setNewTodo("");
   }

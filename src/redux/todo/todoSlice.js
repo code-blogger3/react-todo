@@ -15,13 +15,21 @@ const todoSlice = createSlice({
       state.todos = state.todos.filter((todo) => todo?.id !== action.payload);
     },
     updateTodo: (state, action) => {
-      const { id, title, completed } = action.payload;
+      const { id, title } = action.payload;
       state.todos = state.todos.map((todo) => {
-        return todo?.id === id ? { id, title, completed } : todo;
+        return todo?.id === id ? { ...todo, title: title } : todo;
+      });
+    },
+    toggleTodo: (state, action) => {
+      const { id, completed } = action.payload;
+
+      state.todos = state.todos.map((todo) => {
+        return todo?.id === id ? { ...todo, completed } : todo;
       });
     },
   },
 });
 
-export const { addTodo, removeTodo, updateTodo } = todoSlice.actions;
+export const { addTodo, removeTodo, updateTodo, toggleTodo } =
+  todoSlice.actions;
 export default todoSlice.reducer;
