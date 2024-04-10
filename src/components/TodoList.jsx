@@ -5,6 +5,7 @@ import { useSelector } from "react-redux";
 function TodoList() {
   const { todos } = useSelector((state) => state.todo);
   const [todosList, setTodoList] = useState(todos);
+  // console.log(todos);
   useEffect(() => {
     setTodoList(todos);
   }, [todos]);

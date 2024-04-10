@@ -4,26 +4,18 @@ import { removeTodo, toggleTodo, updateTodo } from "../redux/todo/todoSlice";
 
 function Todo({ todo }) {
   const [isEditing, setIsEditing] = useState(false);
-  const [editTodoValue, setEditTodoValue] = useState(todo?.title);
+  const [editTodoValue, setEditTodoValue] = useState(todo?.name);
   const [completed, setCompleted] = useState(todo?.completed);
 
-  useEffect(() => {
-    setEditTodoValue(todo?.title);
-  }, [todo]);
-  // console.log(editTodoValue);
   const dispatch = useDispatch();
 
-  const editTodo = (title) => {
-    dispatch(updateTodo({ id: todo?.id, title }));
+  const editTodo = (name) => {
+    dispatch(updateTodo({ id: todo?.id, name }));
     setIsEditing((prev) => !prev);
   };
-  // useEffect(() => {
-  //   dispatch(toggleTodo({ id: todo?.id, completed }));
-  // }, [completed]);
-  const handleToggle = () => {
-    setCompleted((prev) => !prev);
-    dispatch(toggleTodo({ id: todo?.id, completed: !completed }));
-  };
+  useEffect(() => {
+    dispatch(toggleTodo({ id: todo?.id, completed }));
+  }, [completed]);
 
   return (
     <>
@@ -48,10 +40,10 @@ function Todo({ todo }) {
             <input
               type="checkbox"
               checked={completed}
-              onChange={handleToggle}
+              onChange={() => setCompleted((prev) => !prev)}
             />
             <span className={`p-3 ${completed ? "line-through" : ""}`}>
-              {todo?.title}
+              {todo?.name}
             </span>
           </label>
           <span className="flex gap-4">

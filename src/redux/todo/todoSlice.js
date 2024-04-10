@@ -15,9 +15,9 @@ const todoSlice = createSlice({
       state.todos = state.todos.filter((todo) => todo?.id !== action.payload);
     },
     updateTodo: (state, action) => {
-      const { id, title } = action.payload;
+      const { id, name } = action.payload;
       state.todos = state.todos.map((todo) => {
-        return todo?.id === id ? { ...todo, title: title } : todo;
+        return todo?.id === id ? { ...todo, name: name } : todo;
       });
     },
     toggleTodo: (state, action) => {
