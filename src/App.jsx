@@ -1,16 +1,17 @@
 import "./App.css";
-import NewTodo from "./components/NewTodo";
-import TodoList from "./components/TodoList";
+import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import CreateTodo from "./pages/CreateTodo";
+import Home from "./pages/Home";
 
 function App() {
-  return (
-    <>
-      <div className="w-max mx-auto mt-5">
-        <NewTodo />
-        <TodoList />
-      </div>
-    </>
-  );
+  const BrowserRoutes = createBrowserRouter([
+    { path: "/", element: <CreateTodo /> },
+    {
+      path: "/home",
+      element: <Home />,
+    },
+  ]);
+  return <RouterProvider router={BrowserRoutes} />;
 }
 
 export default App;
