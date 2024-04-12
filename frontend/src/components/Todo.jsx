@@ -17,6 +17,7 @@ function Todo({ todo }) {
     dispatch(toggleTodo({ id: todo?.id, completed }));
   }, [completed]);
 
+  // console.log(todo);
   return (
     <>
       {isEditing ? (

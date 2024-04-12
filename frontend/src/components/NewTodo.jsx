@@ -1,4 +1,4 @@
-import React, { useReducer } from "react";
+import React, { useEffect, useReducer } from "react";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { addTodo } from "../redux/todo/todoSlice";
@@ -63,13 +63,19 @@ function NewTodo() {
 
   const dispatch = useDispatch();
   const [state, dispatcher] = useReducer(todoReducer, initialState);
-  const [newTodo, setNewTodo] = useState({});
-  const [advanceMode, setAdvanceMode] = useState(false);
 
+  const [advanceMode, setAdvanceMode] = useState(
+    localStorage.getItem("advanceMode") === "true" ? true : false
+  );
+  useEffect(() => {
+    localStorage.setItem("advanceMode", advanceMode);
+  }, [advanceMode]);
+
+  const randomId = () => Math.random().toString(36).substr(2, 10);
   // console.log(state);
   //+numbers are stored as string in state
   function createTodo() {
-    dispatch(addTodo({ ...state }));
+    dispatch(addTodo({ ...state, id: randomId() }));
   }
 
   const handleChange = (e) => {
@@ -87,7 +93,6 @@ function NewTodo() {
           placeholder="Enter task"
           id="todo_name"
           name="name"
-          value={newTodo.name}
           onChange={handleChange}
         />
         <button onClick={() => createTodo()}>Add</button>
