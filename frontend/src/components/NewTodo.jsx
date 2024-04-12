@@ -32,26 +32,44 @@ const todoReducer = (state, action) => {
 };
 
 function NewTodo() {
+  const ImpUrgCategoryOptions = [
+    { value: "none", label: "None" },
+    { value: "importantUrgent", label: "importantUrgent" },
+    { value: "notImportantUrgent", label: "Not important and Urgent" },
+    { value: "importantNotUrgent", label: "important and not Urgent" },
+    { value: "notImportanNottUrgent", label: "Not important and Not Urgent" },
+  ];
+
+  const todoCategoryOptions = [
+    { value: "none", label: "None" },
+    {
+      value: "study",
+      label: "Study",
+    },
+    { value: "code", label: "Code" },
+  ];
+
+  const PriorityOptions = [
+    {
+      value: "none",
+      label: "None",
+    },
+    { value: "highest", label: "Highest" },
+    {
+      value: "lowest",
+      label: "Lowest",
+    },
+  ];
+
   const dispatch = useDispatch();
   const [state, dispatcher] = useReducer(todoReducer, initialState);
   const [newTodo, setNewTodo] = useState({});
   const [advanceMode, setAdvanceMode] = useState(false);
-  // const handleChange = (e) => {
-  //   if (e.target.id === "todo_name") {
-  //     setNewTodo({
-  //       ...newTodo,
-  //       name: e.target.value,
-  //     });
-  //   }
-  // };
 
+  // console.log(state);
+  //+numbers are stored as string in state
   function createTodo() {
     dispatch(addTodo({ ...state }));
-    // setNewTodo({
-    //   id: crypto.randomUUID(),
-    //   name: "",
-    //   completed: false,
-    // });
   }
 
   const handleChange = (e) => {
@@ -81,11 +99,15 @@ function NewTodo() {
           placeholder="Enter Category"
           name="todoCategory"
           id=""
+          onChange={handleChange}
         />
         <button>Add Category</button>
-        <select name="" id="">
-          <option value="study">Study</option>
-          <option value="Code">Code</option>
+        <select name="" id="" onChange={handleChange}>
+          {todoCategoryOptions.map((option) => (
+            <option key={option.value} value={option.value}>
+              {option.label}
+            </option>
+          ))}
         </select>
       </div>
       <br />
@@ -93,38 +115,48 @@ function NewTodo() {
         <div>
           <div>
             <span>Important & Urgent Category</span>
-            <select name="importantUrgentCategory" id="">
-              <option value="None">None</option>
-              <option value="importantUrgent">importantUrgent</option>
-              <option value="NotimportantUrgent">
-                Not important and Urgent
-              </option>
-              <option value="importantNotUrgent">
-                important and not Urgent
-              </option>
-              <option value="NotimportanNottUrgent">
-                Not important and Not Urgent
-              </option>
+            <select
+              name="importantUrgentCategory"
+              id=""
+              onChange={handleChange}
+            >
+              {ImpUrgCategoryOptions.map((option) => (
+                <option key={option.value} value={option.value}>
+                  {option.label}
+                </option>
+              ))}
             </select>
           </div>
           <div>
             <span>Set priority</span>
             <div>
               <h6>Local priority</h6>
-              <input type="number" name="localPriorityNum" />
-              <select name="localPriorityText" id="">
-                <option value="None">None</option>
-                <option value="Highest">Highest</option>
-                <option value="lowest">lowest</option>
+              <input
+                type="number"
+                name="localPriorityNum"
+                onChange={handleChange}
+              />
+              <select name="localPriorityText" id="" onChange={handleChange}>
+                {PriorityOptions.map((option) => (
+                  <option key={option.value} value={option.value}>
+                    {option.label}
+                  </option>
+                ))}
               </select>
             </div>
             <div>
               <h6>Global priority</h6>
-              <input type="number" name="globalPriorityNum" />
-              <select name="globalPriorityText" id="">
-                <option value="None">None</option>
-                <option value="Highest">Highest</option>
-                <option value="lowest">lowest</option>
+              <input
+                type="number"
+                name="globalPriorityNum"
+                onChange={handleChange}
+              />
+              <select name="globalPriorityText" id="" onChange={handleChange}>
+                {PriorityOptions.map((option) => (
+                  <option key={option.value} value={option.value}>
+                    {option.label}
+                  </option>
+                ))}
               </select>
             </div>
           </div>
