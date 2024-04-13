@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
-import Todo from "./Todo";
 import { useSelector } from "react-redux";
+import TodoTable from "./TodoTable";
+import { columns } from "./columns";
 
 function TodoList() {
   const { todos } = useSelector((state) => state.todo);
@@ -12,9 +13,7 @@ function TodoList() {
 
   return (
     <section className="mt-6">
-      {todosList?.map((todo) => (
-        <Todo todo={todo} key={todo?.id} />
-      ))}
+      <TodoTable columns={columns} data={todos} />
     </section>
   );
 }

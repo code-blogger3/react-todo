@@ -4,6 +4,13 @@ import { useDispatch } from "react-redux";
 import { addTodo } from "../redux/todo/todoSlice";
 import { Input } from "./ui/input";
 import { Button } from "./ui/button";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "./ui/select";
 
 const initialState = {
   id: "",
@@ -89,7 +96,7 @@ function NewTodo() {
 
   return (
     <>
-      <main>
+      <main className="border-9 border-sky-500 min-w-96  ">
         <div className="flex w-full max-w-sm items-center space-x-2">
           <Input
             type="text"
@@ -101,84 +108,113 @@ function NewTodo() {
           <Button onClick={() => createTodo()}>Add</Button>
         </div>
 
-        <br />
-        <div className="flex">
-          <input
-            type="text"
-            placeholder="Enter Category"
-            name="todoCategory"
-            id=""
-            onChange={handleChange}
-          />
-          <button>Add Category</button>
-          <select name="" id="" onChange={handleChange}>
-            {todoCategoryOptions.map((option) => (
-              <option key={option.value} value={option.value}>
-                {option.label}
-              </option>
-            ))}
-          </select>
+        <div className="mt-2">
+          <div className="flex w-full max-w-sm items-center space-x-2 mb-3">
+            <Input
+              type="text"
+              placeholder="Enter Category"
+              name="todoCategory"
+              id=""
+              onChange={handleChange}
+              // defaultValue={state.todoCategory}
+            />
+            <Button>Add Category</Button>
+          </div>
+
+          <Select name="" id="" onChange={handleChange}>
+            <SelectTrigger className="w-[280px]">
+              <SelectValue placeholder="Select a Category" />
+            </SelectTrigger>
+            <SelectContent>
+              {todoCategoryOptions.map((option) => (
+                <SelectItem key={option.value} value={option.value}>
+                  {option.label}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
         </div>
         <br />
         {advanceMode && (
           <div>
             <div>
-              <span>Important & Urgent Category</span>
-              <select
+              <Select
                 name="importantUrgentCategory"
                 id=""
                 onChange={handleChange}
               >
-                {ImpUrgCategoryOptions.map((option) => (
-                  <option key={option.value} value={option.value}>
-                    {option.label}
-                  </option>
-                ))}
-              </select>
+                <SelectTrigger className="w-[280px]">
+                  <SelectValue placeholder="Select importance and urgency" />
+                </SelectTrigger>
+                <SelectContent>
+                  {ImpUrgCategoryOptions.map((option) => (
+                    <SelectItem key={option.value} value={option.value}>
+                      {option.label}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
             </div>
             <div>
-              <span>Set priority</span>
-              <div>
-                <h6>Local priority</h6>
-                <input
-                  type="number"
-                  name="localPriorityNum"
-                  onChange={handleChange}
-                />
-                <select name="localPriorityText" id="" onChange={handleChange}>
+              <Input
+                type="number"
+                name="localPriorityNum"
+                onChange={handleChange}
+                placeholder="Assign local priority value"
+                className="mt-2 mb-2"
+              />
+              <Select name="localPriorityText" id="" onChange={handleChange}>
+                <SelectTrigger className="w-[280px]">
+                  <SelectValue placeholder="Select local priority" />
+                </SelectTrigger>
+                <SelectContent>
                   {PriorityOptions.map((option) => (
-                    <option key={option.value} value={option.value}>
+                    <SelectItem key={option.value} value={option.value}>
                       {option.label}
-                    </option>
+                    </SelectItem>
                   ))}
-                </select>
-              </div>
+                </SelectContent>
+              </Select>
+
               <div>
-                <h6>Global priority</h6>
-                <input
+                <Input
                   type="number"
                   name="globalPriorityNum"
                   onChange={handleChange}
+                  placeholder="Assign global priority value"
+                  className="mt-2 mb-2"
                 />
-                <select name="globalPriorityText" id="" onChange={handleChange}>
-                  {PriorityOptions.map((option) => (
-                    <option key={option.value} value={option.value}>
-                      {option.label}
-                    </option>
-                  ))}
-                </select>
+                <Select name="globalPriorityText" id="" onChange={handleChange}>
+                  <SelectTrigger className="w-[280px]">
+                    <SelectValue placeholder="Select glocal priority" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {PriorityOptions.map((option) => (
+                      <SelectItem key={option.value} value={option.value}>
+                        {option.label}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
               </div>
             </div>
           </div>
         )}
         {advanceMode ? (
-          <button onClick={() => setAdvanceMode((prev) => !prev)}>
+          <Button
+            variant="secondary"
+            onClick={() => setAdvanceMode((prev) => !prev)}
+            className="mt-3"
+          >
             Basic Mode
-          </button>
+          </Button>
         ) : (
-          <button onClick={() => setAdvanceMode((prev) => !prev)}>
+          <Button
+            variant="secondary"
+            onClick={() => setAdvanceMode((prev) => !prev)}
+          >
             Advance Mode
-          </button>
+          </Button>
         )}
       </main>
     </>
