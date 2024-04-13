@@ -2,6 +2,8 @@ import React, { useEffect, useReducer } from "react";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { addTodo } from "../redux/todo/todoSlice";
+import { Input } from "./ui/input";
+import { Button } from "./ui/button";
 
 const initialState = {
   id: "",
@@ -87,95 +89,98 @@ function NewTodo() {
 
   return (
     <>
-      <section className="flex gap-6">
-        <input
-          type="text"
-          placeholder="Enter task"
-          id="todo_name"
-          name="name"
-          onChange={handleChange}
-        />
-        <button onClick={() => createTodo()}>Add</button>
-      </section>
-      <br />
-      <div className="flex">
-        <input
-          type="text"
-          placeholder="Enter Category"
-          name="todoCategory"
-          id=""
-          onChange={handleChange}
-        />
-        <button>Add Category</button>
-        <select name="" id="" onChange={handleChange}>
-          {todoCategoryOptions.map((option) => (
-            <option key={option.value} value={option.value}>
-              {option.label}
-            </option>
-          ))}
-        </select>
-      </div>
-      <br />
-      {advanceMode && (
-        <div>
-          <div>
-            <span>Important & Urgent Category</span>
-            <select
-              name="importantUrgentCategory"
-              id=""
-              onChange={handleChange}
-            >
-              {ImpUrgCategoryOptions.map((option) => (
-                <option key={option.value} value={option.value}>
-                  {option.label}
-                </option>
-              ))}
-            </select>
-          </div>
-          <div>
-            <span>Set priority</span>
-            <div>
-              <h6>Local priority</h6>
-              <input
-                type="number"
-                name="localPriorityNum"
-                onChange={handleChange}
-              />
-              <select name="localPriorityText" id="" onChange={handleChange}>
-                {PriorityOptions.map((option) => (
-                  <option key={option.value} value={option.value}>
-                    {option.label}
-                  </option>
-                ))}
-              </select>
-            </div>
-            <div>
-              <h6>Global priority</h6>
-              <input
-                type="number"
-                name="globalPriorityNum"
-                onChange={handleChange}
-              />
-              <select name="globalPriorityText" id="" onChange={handleChange}>
-                {PriorityOptions.map((option) => (
-                  <option key={option.value} value={option.value}>
-                    {option.label}
-                  </option>
-                ))}
-              </select>
-            </div>
-          </div>
+      <main>
+        <div className="flex w-full max-w-sm items-center space-x-2">
+          <Input
+            type="text"
+            placeholder="Enter task"
+            id="todo_name"
+            name="name"
+            onChange={handleChange}
+          />
+          <Button onClick={() => createTodo()}>Add</Button>
         </div>
-      )}
-      {advanceMode ? (
-        <button onClick={() => setAdvanceMode((prev) => !prev)}>
-          Basic Mode
-        </button>
-      ) : (
-        <button onClick={() => setAdvanceMode((prev) => !prev)}>
-          Advance Mode
-        </button>
-      )}
+
+        <br />
+        <div className="flex">
+          <input
+            type="text"
+            placeholder="Enter Category"
+            name="todoCategory"
+            id=""
+            onChange={handleChange}
+          />
+          <button>Add Category</button>
+          <select name="" id="" onChange={handleChange}>
+            {todoCategoryOptions.map((option) => (
+              <option key={option.value} value={option.value}>
+                {option.label}
+              </option>
+            ))}
+          </select>
+        </div>
+        <br />
+        {advanceMode && (
+          <div>
+            <div>
+              <span>Important & Urgent Category</span>
+              <select
+                name="importantUrgentCategory"
+                id=""
+                onChange={handleChange}
+              >
+                {ImpUrgCategoryOptions.map((option) => (
+                  <option key={option.value} value={option.value}>
+                    {option.label}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div>
+              <span>Set priority</span>
+              <div>
+                <h6>Local priority</h6>
+                <input
+                  type="number"
+                  name="localPriorityNum"
+                  onChange={handleChange}
+                />
+                <select name="localPriorityText" id="" onChange={handleChange}>
+                  {PriorityOptions.map((option) => (
+                    <option key={option.value} value={option.value}>
+                      {option.label}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <div>
+                <h6>Global priority</h6>
+                <input
+                  type="number"
+                  name="globalPriorityNum"
+                  onChange={handleChange}
+                />
+                <select name="globalPriorityText" id="" onChange={handleChange}>
+                  {PriorityOptions.map((option) => (
+                    <option key={option.value} value={option.value}>
+                      {option.label}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            </div>
+          </div>
+        )}
+        {advanceMode ? (
+          <button onClick={() => setAdvanceMode((prev) => !prev)}>
+            Basic Mode
+          </button>
+        ) : (
+          <button onClick={() => setAdvanceMode((prev) => !prev)}>
+            Advance Mode
+          </button>
+        )}
+      </main>
     </>
   );
 }
