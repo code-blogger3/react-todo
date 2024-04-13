@@ -2,13 +2,13 @@ import "./App.css";
 import { Outlet, RouterProvider, createBrowserRouter } from "react-router-dom";
 import CreateTodo from "./pages/CreateTodo";
 import Home from "./pages/Home";
-import { ModeToggle } from "./components/mode-toggle";
+import Navbar from "./components/Navbar";
 
 function App() {
   const Layout = () => {
     return (
       <>
-        <ModeToggle />
+        <Navbar />
         <Outlet />
       </>
     );
