@@ -13,7 +13,7 @@ function TodoList() {
 
   return (
     <section className="mt-6">
-      <TodoTable columns={columns} data={todos} />
+      <TodoTable columns={columns} data={todosList} />
     </section>
   );
 }

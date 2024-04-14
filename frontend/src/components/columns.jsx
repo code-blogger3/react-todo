@@ -53,15 +53,15 @@ export const columns = [
   },
   {
     accessorKey: "todoCategory",
-    header: "Category",
+    header: "Todo category",
   },
   {
     accessorKey: "importantUrgentCategory",
-    header: "Status",
+    header: "Important / Urgent",
   },
   {
     accessorKey: "localPriorityNum",
-    header: "Priority",
+    header: "local priority",
   },
 
   {

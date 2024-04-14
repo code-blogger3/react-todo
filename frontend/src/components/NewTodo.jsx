@@ -1,4 +1,4 @@
-import React, { useEffect, useReducer } from "react";
+import React, { useEffect, useReducer, useRef } from "react";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { addTodo } from "../redux/todo/todoSlice";
@@ -11,71 +11,25 @@ import {
   SelectTrigger,
   SelectValue,
 } from "./ui/select";
-
-const initialState = {
-  id: "",
-  name: "",
-  completed: false,
-  importantUrgentCategory: "None",
-  todoCategory: "None",
-  localPriorityText: "None",
-  localPriorityNum: 0,
-  globalPriorityText: "None",
-  globalPriorityNum: 0,
-};
-
-const ACTIONS = {
-  CHANGE_INPUT: "CHANGE_INPUT",
-};
-
-const todoReducer = (state, action) => {
-  switch (action.type) {
-    case ACTIONS.CHANGE_INPUT:
-      return {
-        ...state,
-        [action.payload.name]: action.payload.value,
-      };
-    default:
-      return state;
-  }
-};
+import {
+  ACTIONS,
+  ImpUrgCategoryOptions,
+  PriorityOptions,
+  initialState,
+  todoCategoryOptions,
+  todoReducer,
+} from "@/utils/newTodoHelper";
 
 function NewTodo() {
-  const ImpUrgCategoryOptions = [
-    { value: "none", label: "None" },
-    { value: "importantUrgent", label: "importantUrgent" },
-    { value: "notImportantUrgent", label: "Not important and Urgent" },
-    { value: "importantNotUrgent", label: "important and not Urgent" },
-    { value: "notImportanNottUrgent", label: "Not important and Not Urgent" },
-  ];
-
-  const todoCategoryOptions = [
-    { value: "none", label: "None" },
-    {
-      value: "study",
-      label: "Study",
-    },
-    { value: "code", label: "Code" },
-  ];
-
-  const PriorityOptions = [
-    {
-      value: "none",
-      label: "None",
-    },
-    { value: "highest", label: "Highest" },
-    {
-      value: "lowest",
-      label: "Lowest",
-    },
-  ];
-
   const dispatch = useDispatch();
   const [state, dispatcher] = useReducer(todoReducer, initialState);
+  const [localPriorityInputDisable, setLocalPriorityInputDisable] =
+    useState(false);
 
   const [advanceMode, setAdvanceMode] = useState(
     localStorage.getItem("advanceMode") === "true" ? true : false
   );
+
   useEffect(() => {
     localStorage.setItem("advanceMode", advanceMode);
   }, [advanceMode]);
@@ -87,41 +41,70 @@ function NewTodo() {
     dispatch(addTodo({ ...state, id: randomId() }));
   }
 
-  const handleChange = (e) => {
+  const handleChangeInput = (e) => {
     dispatcher({
-      type: "CHANGE_INPUT",
+      type: ACTIONS.CHANGE_INPUT,
       payload: { name: e.target.name, value: e.target.value },
+    });
+  };
+
+  const handleChangeTodoCatSelect = (value) => {
+    dispatcher({
+      type: ACTIONS.CHANGE_INPUT,
+      payload: { name: "todoCategory", value }, // Hardcode the name or pass it from the component
+    });
+  };
+  const handleChangeImpUrgCatSelect = (value) => {
+    dispatcher({
+      type: ACTIONS.CHANGE_INPUT,
+      payload: { name: "importantUrgentCategory", value }, // Hardcode the name or pass it from the component
+    });
+  };
+  const handleChangeLocCatSelect = (value) => {
+    dispatcher({
+      type: ACTIONS.CHANGE_INPUT,
+      payload: { name: "localPriorityCategory", value }, // Hardcode the name or pass it from the component
+    });
+  };
+  const handleChangeGloCatSelect = (value) => {
+    dispatcher({
+      type: ACTIONS.CHANGE_INPUT,
+      payload: { name: " globalPriorityCategory", value }, // Hardcode the name or pass it from the component
     });
   };
 
   return (
     <>
-      <main className="border-9 border-sky-500 min-w-96  ">
+      <main className=" min-w-96  ">
         <div className="flex w-full max-w-sm items-center space-x-2">
           <Input
             type="text"
             placeholder="Enter task"
             id="todo_name"
             name="name"
-            onChange={handleChange}
+            onChange={handleChangeInput}
           />
           <Button onClick={() => createTodo()}>Add</Button>
         </div>
 
-        <div className="mt-2">
-          <div className="flex w-full max-w-sm items-center space-x-2 mb-3">
-            <Input
-              type="text"
-              placeholder="Enter Category"
-              name="todoCategory"
-              id=""
-              onChange={handleChange}
-              // defaultValue={state.todoCategory}
-            />
-            <Button>Add Category</Button>
-          </div>
+        <div className="">
+          <Input
+            type="text"
+            placeholder="Enter Category"
+            name="todoCategory"
+            id=""
+            className="my-2"
+            value={state.todoCategory}
+            onChange={handleChangeInput}
+            // defaultValue={state.todoCategory}
+          />
 
-          <Select name="" id="" onChange={handleChange}>
+          <Select
+            name="todoCategory"
+            id=""
+            value={state.todoCategory}
+            onValueChange={handleChangeTodoCatSelect}
+          >
             <SelectTrigger className="w-[280px]">
               <SelectValue placeholder="Select a Category" />
             </SelectTrigger>
@@ -141,7 +124,8 @@ function NewTodo() {
               <Select
                 name="importantUrgentCategory"
                 id=""
-                onChange={handleChange}
+                onValueChange={handleChangeImpUrgCatSelect}
+                value={state.ImportantUrgentCategory}
               >
                 <SelectTrigger className="w-[280px]">
                   <SelectValue placeholder="Select importance and urgency" />
@@ -159,11 +143,16 @@ function NewTodo() {
               <Input
                 type="number"
                 name="localPriorityNum"
-                onChange={handleChange}
+                onChange={handleChangeInput}
+                disabled={localPriorityInputDisable}
                 placeholder="Assign local priority value"
                 className="mt-2 mb-2"
               />
-              <Select name="localPriorityText" id="" onChange={handleChange}>
+              <Select
+                name="localPriorityText"
+                id=""
+                onValueChange={handleChangeLocCatSelect}
+              >
                 <SelectTrigger className="w-[280px]">
                   <SelectValue placeholder="Select local priority" />
                 </SelectTrigger>
@@ -180,11 +169,15 @@ function NewTodo() {
                 <Input
                   type="number"
                   name="globalPriorityNum"
-                  onChange={handleChange}
+                  onChange={handleChangeInput}
                   placeholder="Assign global priority value"
                   className="mt-2 mb-2"
                 />
-                <Select name="globalPriorityText" id="" onChange={handleChange}>
+                <Select
+                  name="globalPriorityText"
+                  id=""
+                  onValueChange={handleChangeGloCatSelect}
+                >
                   <SelectTrigger className="w-[280px]">
                     <SelectValue placeholder="Select glocal priority" />
                   </SelectTrigger>
