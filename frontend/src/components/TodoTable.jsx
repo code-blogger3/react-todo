@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { removeTodo, toggleTodo, updateTodo } from "../redux/todo/todoSlice";
+import { toggleTodo, updateTodo } from "../redux/todo/todoSlice";
 import {
   flexRender,
   getCoreRowModel,
@@ -26,7 +26,15 @@ import {
 } from "./ui/dropdown-menu";
 import { ChevronDownIcon } from "lucide-react";
 import { Button } from "./ui/button";
-function TodoTable({ columns, data }) {
+import {
+  Pagination,
+  PaginationContent,
+  PaginationItem,
+  PaginationNext,
+  PaginationPrevious,
+} from "./ui/pagination";
+import { current } from "@reduxjs/toolkit";
+function TodoTable({ columns, data, todosCount }) {
   // const [isEditing, setIsEditing] = useState(false);
   // const [editTodoValue, setEditTodoValue] = useState(todo?.name);
   // const [completed, setCompleted] = useState(todo?.completed);
@@ -34,6 +42,10 @@ function TodoTable({ columns, data }) {
   const [columnFilters, setColumnFilters] = useState([]);
   const [columnVisibility, setColumnVisibility] = useState({});
   const [rowSelection, setRowSelection] = useState({});
+  const [pagination, setPagination] = useState({
+    pageIndex: 0,
+    pageSize: 6,
+  });
 
   const table = useReactTable({
     data,
@@ -46,15 +58,15 @@ function TodoTable({ columns, data }) {
     getFilteredRowModel: getFilteredRowModel(),
     onColumnVisibilityChange: setColumnVisibility,
     onRowSelectionChange: setRowSelection,
+    onPaginationChange: setPagination,
     state: {
       sorting,
+      pagination,
       columnFilters,
       columnVisibility,
       rowSelection,
     },
   });
-
-  const dispatch = useDispatch();
 
   // const editTodo = (name) => {
   //   dispatch(updateTodo({ id: todo?.id, name }));
@@ -158,23 +170,41 @@ function TodoTable({ columns, data }) {
             {table.getFilteredSelectedRowModel().rows.length} of{" "}
             {table.getFilteredRowModel().rows.length} row(s) selected.
           </div>
+          {/* <span className="block text-sm text-muted-foreground">
+            
+          </span> */}
           <div className="space-x-2">
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => table.previousPage()}
-              disabled={!table.getCanPreviousPage()}
-            >
-              Previous
-            </Button>
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => table.nextPage()}
-              disabled={!table.getCanNextPage()}
-            >
-              Next
-            </Button>
+            <Pagination>
+              <PaginationContent>
+                <Button
+                  variant="ghost"
+                  onClick={() => table.firstPage()}
+                  disabled={!table.getCanPreviousPage()}
+                >
+                  {"<<"}
+                </Button>
+                <PaginationItem>
+                  <PaginationPrevious
+                    onClick={() => table.previousPage()}
+                    disabled={!table.getCanPreviousPage()}
+                  />
+                </PaginationItem>
+
+                <PaginationItem>
+                  <PaginationNext
+                    onClick={() => table.nextPage()}
+                    disabled={!table.getCanNextPage()}
+                  />
+                </PaginationItem>
+                <Button
+                  variant="ghost"
+                  onClick={() => table.lastPage()}
+                  disabled={!table.getCanNextPage()}
+                >
+                  {">>"}
+                </Button>
+              </PaginationContent>
+            </Pagination>
           </div>
         </div>
       </div>
@@ -217,3 +247,21 @@ export default TodoTable;
 //     </div>
 //   );
 // }
+{
+  /* <Button
+              variant="outline"
+              size="sm"
+              onClick={() => table.previousPage()}
+              disabled={!table.getCanPreviousPage()}
+            >
+              Previous
+            </Button>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => table.nextPage()}
+              disabled={!table.getCanNextPage()}
+            >
+              Next
+            </Button> */
+}

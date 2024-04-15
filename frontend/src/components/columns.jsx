@@ -11,6 +11,8 @@ import {
   DropdownMenuLabel,
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
+import { useDispatch } from "react-redux";
+import { removeTodo } from "@/redux/todo/todoSlice";
 
 export const columns = [
   {
@@ -68,7 +70,8 @@ export const columns = [
     id: "actions",
     enableHiding: false,
     cell: ({ row }) => {
-      const payment = row.original;
+      const dispatch = useDispatch();
+      const todo = row.original;
 
       return (
         <DropdownMenu>
@@ -80,10 +83,9 @@ export const columns = [
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Action</DropdownMenuLabel>
-            <DropdownMenuItem
-              onClick={() => navigator.clipboard.writeText(payment.id)}
-            >
-              Edit
+            <DropdownMenuItem>Edit</DropdownMenuItem>
+            <DropdownMenuItem onClick={() => dispatch(removeTodo(todo.id))}>
+              Delete
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
@@ -91,12 +93,3 @@ export const columns = [
     },
   },
 ];
-
-// function DataTableDemo() {
-
-//   return (
-
-//   );
-// }
-
-// export { DataTableDemo };
