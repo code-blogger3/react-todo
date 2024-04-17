@@ -3,7 +3,7 @@ const initialState = {
   name: "",
   completed: false,
   importantUrgentCategory: "None",
-  todoCategory: "None",
+  todoCategory: "",
   localPriorityCategory: "None",
   localPriorityNum: 0,
   globalPriorityCategory: "None",
@@ -12,6 +12,7 @@ const initialState = {
 
 const ACTIONS = {
   CHANGE_INPUT: "CHANGE_INPUT",
+  CLEAR_FIELDS: "CLEAR_FIELDS",
 };
 
 const todoReducer = (state, action) => {
@@ -20,6 +21,10 @@ const todoReducer = (state, action) => {
       return {
         ...state,
         [action.payload.name]: action.payload.value,
+      };
+    case ACTIONS.CLEAR_FIELDS:
+      return {
+        ...action.payload,
       };
     default:
       return state;
@@ -31,7 +36,7 @@ const ImpUrgCategoryOptions = [
   { value: "importantUrgent", label: "importantUrgent" },
   { value: "notImportantUrgent", label: "Not important and Urgent" },
   { value: "importantNotUrgent", label: "important and not Urgent" },
-  { value: "notImportanNottUrgent", label: "Not important and Not Urgent" },
+  { value: "notImportanNotUrgent", label: "Not important and Not Urgent" },
 ];
 
 const todoCategoryOptions = [

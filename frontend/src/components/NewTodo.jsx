@@ -19,10 +19,12 @@ import {
   todoCategoryOptions,
   todoReducer,
 } from "@/utils/newTodoHelper";
+import { Card } from "./ui/card";
 
 function NewTodo() {
   const dispatch = useDispatch();
   const [state, dispatcher] = useReducer(todoReducer, initialState);
+  const [todosState, setTodosState] = useState(state);
   const [localPriorityInputDisable, setLocalPriorityInputDisable] =
     useState(false);
 
@@ -37,8 +39,12 @@ function NewTodo() {
   const randomId = () => Math.random().toString(36).substr(2, 10);
   // console.log(state);
   //+numbers are stored as string in state
+  const resetFields = () =>
+    dispatcher({ type: ACTIONS.CLEAR_FIELDS, payload: initialState });
   function createTodo() {
+    console.log("Creating todo", state);
     dispatch(addTodo({ ...state, id: randomId() }));
+    resetFields();
   }
 
   const handleChangeInput = (e) => {
@@ -75,13 +81,14 @@ function NewTodo() {
 
   return (
     <>
-      <main className=" min-w-96  ">
+      <Card className="p-4">
         <div className="flex w-full max-w-sm items-center space-x-2">
           <Input
             type="text"
             placeholder="Enter task"
             id="todo_name"
             name="name"
+            value={state.name}
             onChange={handleChangeInput}
           />
           <Button onClick={() => createTodo()}>Add</Button>
@@ -103,10 +110,12 @@ function NewTodo() {
             name="todoCategory"
             id=""
             value={state.todoCategory}
+            // defaultValue="none"
             onValueChange={handleChangeTodoCatSelect}
           >
             <SelectTrigger className="w-[280px]">
-              <SelectValue placeholder="Select a Category" />
+              <SelectValue placeholder="Select a category" />
+              {/* <p>Select a category</p> */}
             </SelectTrigger>
             <SelectContent>
               {todoCategoryOptions.map((option) => (
@@ -125,7 +134,8 @@ function NewTodo() {
                 name="importantUrgentCategory"
                 id=""
                 onValueChange={handleChangeImpUrgCatSelect}
-                value={state.ImportantUrgentCategory}
+                value={state.importantUrgentCategory}
+                // defaultValue={state.importantUrgentCategory}
               >
                 <SelectTrigger className="w-[280px]">
                   <SelectValue placeholder="Select importance and urgency" />
@@ -209,7 +219,7 @@ function NewTodo() {
             Advance Mode
           </Button>
         )}
-      </main>
+      </Card>
     </>
   );
 }

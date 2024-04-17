@@ -5,7 +5,7 @@ import TodoList from "../components/TodoList";
 function CreateTodo() {
   return (
     <>
-      <div className="w-max mx-auto mt-5">
+      <div className="w-max mx-auto  pt-[74px]">
         <NewTodo />
         <TodoList />
       </div>
