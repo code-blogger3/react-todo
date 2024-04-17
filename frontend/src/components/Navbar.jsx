@@ -10,7 +10,7 @@ import { useNavigate } from "react-router-dom";
 function Navbar() {
   const navigate = useNavigate();
   return (
-    <nav className="absolute w-full px-7 mt-[15px] flex justify-between border border-l-sky-950 border-t-0 border-x-0 pb-2">
+    <nav className="fixed w-full px-7 mt-[15px] flex justify-between border border-l-sky-950 border-t-0 border-x-0 pb-2 bg-background">
       <NavigationMenu>
         <NavigationMenuList className="gap-5">
           <NavigationMenuItem

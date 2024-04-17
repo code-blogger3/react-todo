@@ -1,6 +1,8 @@
 import { removeTodo, toggleTodo, updateTodo } from "@/redux/todo/todoSlice";
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
+import { Checkbox } from "./ui/checkbox";
+import { Input } from "./ui/input";
 
 function TodoTask({ todo }) {
   const [isEditing, setIsEditing] = useState(false);
@@ -20,7 +22,7 @@ function TodoTask({ todo }) {
       <div className="">
         {isEditing ? (
           <div className="flex gap-1 justify-between" key={todo?.id}>
-            <input
+            <Input
               type="text"
               className="border-sky-400"
               value={editTodoValue}
@@ -34,12 +36,12 @@ function TodoTask({ todo }) {
             </span>
           </div>
         ) : (
-          <div className="flex gap-3 justify-between" key={todo?.id}>
+          <div className="flex  gap-3 justify-between py-[9px] " key={todo?.id}>
             <label>
-              <input
-                type="checkbox"
+              <Checkbox
+                // className="items-baseline"
                 checked={completed}
-                onChange={() => setCompleted((prev) => !prev)}
+                onCheckedChange={() => setCompleted((prev) => !prev)}
               />
               <span className={`p-3 ${completed ? "line-through" : ""}`}>
                 {todo?.name}
