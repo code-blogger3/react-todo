@@ -33,7 +33,7 @@ import {
   PaginationPrevious,
 } from "./ui/pagination";
 
-function TodoTable({ columns, data }) {
+function TodoTable({ columns, data,setData }) {
   const [sorting, setSorting] = useState([]);
   const [columnFilters, setColumnFilters] = useState([]);
   const [columnVisibility, setColumnVisibility] = useState({});
@@ -61,6 +61,19 @@ function TodoTable({ columns, data }) {
       columnFilters,
       columnVisibility,
       rowSelection,
+    },
+    meta: {
+      updateData: (rowIndex, columnId, value) =>
+        setData((prev) =>
+          prev.map((row, index) =>
+            index === rowIndex
+              ? {
+                  ...prev[rowIndex],
+                  [columnId]: value,
+                }
+              : row
+          )
+        ),
     },
   });
 

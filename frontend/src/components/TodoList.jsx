@@ -12,8 +12,8 @@ function TodoList() {
   }, [todos]);
 
   return (
-    <section className="mt-6">
-      <TodoTable columns={columns} data={todosList} />
+    <section className="mt-6 mx-5">
+      <TodoTable columns={columns} data={todosList} setData={setTodoList} />
     </section>
   );
 }

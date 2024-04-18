@@ -21,10 +21,10 @@ import {
 } from "@/utils/newTodoHelper";
 import { Card } from "./ui/card";
 
-function NewTodo() {
+function NewTodo({ setOpenModal }) {
   const dispatch = useDispatch();
   const [state, dispatcher] = useReducer(todoReducer, initialState);
-  const [todosState, setTodosState] = useState(state);
+
   const [localPriorityInputDisable, setLocalPriorityInputDisable] =
     useState(false);
 
@@ -45,6 +45,7 @@ function NewTodo() {
     console.log("Creating todo", state);
     dispatch(addTodo({ ...state, id: randomId() }));
     resetFields();
+    setOpenModal(false);
   }
 
   const handleChangeInput = (e) => {
@@ -81,8 +82,8 @@ function NewTodo() {
 
   return (
     <>
-      <Card className="p-4">
-        <div className="flex w-full max-w-sm items-center space-x-2">
+      <Card className="p-4 mx-4">
+        <div className="flex w-full max-w-sm items-center space-x-2 md:max-w-md lg:max-w-lg">
           <Input
             type="text"
             placeholder="Enter task"

@@ -13,6 +13,7 @@ import {
 } from "./ui/dropdown-menu";
 import { useDispatch } from "react-redux";
 import { removeTodo } from "@/redux/todo/todoSlice";
+import EditableCell from "./EditableCell";
 
 export const columns = [
   {
@@ -40,18 +41,20 @@ export const columns = [
 
   {
     accessorKey: "name",
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          Name
-          <CaretSortIcon className="ml-2 h-4 w-4" />
-        </Button>
-      );
-    },
-    cell: ({ row }) => <div className="lowercase">{row.getValue("name")}</div>,
+    // header: ({ column }) => {
+    //   return (
+    //     <Button
+    //       variant="ghost"
+    //       onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+    //     >
+    //       Name
+    //       <CaretSortIcon className="ml-2 h-4 w-4" />
+    //     </Button>
+    //   );
+    // },
+    // cell: ({ row }) => <div className="lowercase">{row.getValue("name")}</div>,
+    header: "Name",
+    cell: EditableCell,
   },
   {
     accessorKey: "todoCategory",
@@ -83,7 +86,6 @@ export const columns = [
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Action</DropdownMenuLabel>
-            <DropdownMenuItem>Edit</DropdownMenuItem>
             <DropdownMenuItem onClick={() => dispatch(removeTodo(todo.id))}>
               Delete
             </DropdownMenuItem>
