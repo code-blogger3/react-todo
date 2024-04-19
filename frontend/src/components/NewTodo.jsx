@@ -42,7 +42,7 @@ function NewTodo({ setOpenModal }) {
   const resetFields = () =>
     dispatcher({ type: ACTIONS.CLEAR_FIELDS, payload: initialState });
   function createTodo() {
-    console.log("Creating todo", state);
+    // console.log("Creating todo", state);
     dispatch(addTodo({ ...state, id: randomId() }));
     resetFields();
     setOpenModal(false);

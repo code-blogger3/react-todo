@@ -27,7 +27,21 @@ function Navbar() {
           </NavigationMenuItem>
         </NavigationMenuList>
       </NavigationMenu>
-      <ModeToggle />
+      <div className="flex gap-3">
+        <NavigationMenuItem
+          className={navigationMenuTriggerStyle()}
+          onClick={() => navigate("/login")}
+        >
+          Sign In
+        </NavigationMenuItem>
+        <NavigationMenuItem
+          className={navigationMenuTriggerStyle()}
+          onClick={() => navigate("/register")}
+        >
+          Sign Up
+        </NavigationMenuItem>
+        <ModeToggle />
+      </div>
     </nav>
   );
 }
