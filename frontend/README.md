@@ -20,3 +20,11 @@ npm i @reduxjs/toolkit
 npm i react-redux
 npm i redux-persist
 npm i react-router-dom
+
+npm i dotenv
+npm i express
+npm i cookie-parser
+npm install mongodb
+npm i mongoose
+npm i bcrypt
+npm i jsonwebtoken
