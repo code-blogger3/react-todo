@@ -21,7 +21,7 @@ const loginUser = asyncHandler(async (req, res) => {
   try {
     const { username, email, password } = req.body;
 
-    const user = await UserModel.findOne({ username });
+    const user = await UserModel.findOne({ username, email });
 
     if (!user) {
       return res.status(400).json(new ApiError(400, "User doesn't exist"));
@@ -34,11 +34,11 @@ const loginUser = asyncHandler(async (req, res) => {
         .status(400)
         .json(new ApiError(400, "Username or password is incorrect"));
     }
+    const { password: pass, ...userDoc } = user._doc;
     const token = jwt.sign({ id: user._id }, "superSafe");
-    res.json(
+    res.cookie("access_token", token, { httpOnly: true }).json(
       new ApiResponse(200, "login detail is send", {
-        token,
-        userID: user._id,
+        userDoc,
       })
     );
   } catch (error) {
