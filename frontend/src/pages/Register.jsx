@@ -1,6 +1,6 @@
 import * as React from "react";
 
-// import { Button } from "@/components/ui/button";
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -11,16 +11,35 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+
 import { Button } from "@/components/ui/button";
+import { useQuery } from "react-query";
+import axios from "axios";
+import { useState } from "react";
 
 export function Register() {
+  const [userDetails, setUserDetails] = useState({
+    username: "",
+    email: "",
+    password: "",
+  });
+
+  const userRegisterApi = (userRegisterData) => {
+    return axios.post("/api/auth/register", { ...userRegisterData });
+  };
+  const { data, refetch } = useQuery(
+    "user_register",
+    userRegisterApi(userDetails),
+    {
+      enabled: false,
+    }
+  );
+  function handleChange(e) {
+    setUserDetails({
+      ...userDetails,
+      [e.target.id]: e.target.value,
+    });
+  }
   return (
     <div className="max-w-sm mx-auto  pt-[90px]">
       <Card className="w-[350px] mx-auto md:min-w-[450px]">
@@ -32,11 +51,21 @@ export function Register() {
             <div className="grid w-full items-center gap-4">
               <div className="flex flex-col space-y-1.5">
                 <Label htmlFor="name">Name</Label>
-                <Input id="name" placeholder="Enter your username" />
+                <Input
+                  id="username"
+                  placeholder="Enter your username"
+                  value={userDetails.username}
+                  onChange={handleChange}
+                />
               </div>
               <div className="flex flex-col space-y-1.5">
                 <Label htmlFor="email">Email</Label>
-                <Input id="email" placeholder="Enter your email" />
+                <Input
+                  id="email"
+                  placeholder="Enter your email"
+                  value={userDetails.email}
+                  onChange={handleChange}
+                />
               </div>
               <div className="flex flex-col space-y-1.5">
                 <Label htmlFor="password">password</Label>
@@ -44,6 +73,8 @@ export function Register() {
                   id="password"
                   type="password"
                   placeholder="Enter your password"
+                  value={userDetails.password}
+                  onChange={handleChange}
                 />
               </div>
             </div>
@@ -51,7 +82,7 @@ export function Register() {
         </CardContent>
         <CardFooter className="flex flex-row-reverse">
           {/* <Button variant="outline">Cancel</Button> */}
-          <Button>Sign Up</Button>
+          <Button onClick={refetch}>Sign Up</Button>
         </CardFooter>
       </Card>
     </div>

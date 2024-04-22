@@ -28,3 +28,5 @@ npm install mongodb
 npm i mongoose
 npm i bcrypt
 npm i jsonwebtoken
+npm i react-query
+npm i axios
