@@ -30,3 +30,4 @@ npm i bcrypt
 npm i jsonwebtoken
 npm i react-query
 npm i axios
+npm i @tanstack/react-query-devtools@4

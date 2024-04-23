@@ -1,6 +1,5 @@
 import * as React from "react";
 
-import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -24,16 +23,20 @@ export function Register() {
     password: "",
   });
 
-  const userRegisterApi = (userRegisterData) => {
-    return axios.post("/api/auth/register", { ...userRegisterData });
+  const userRegisterApi = async (userRegisterData) => {
+    const res = await axios.post("/api/auth/register", { ...userRegisterData });
+    console.log(...userRegisterData);
+    return res;
   };
-  const { data, refetch } = useQuery(
-    "user_register",
-    userRegisterApi(userDetails),
-    {
-      enabled: false,
-    }
-  );
+  const { data, refetch, error } = useQuery({
+    queryKey: ["user_register"],
+    queryFn: () => userRegisterApi(userDetails),
+    enabled: false,
+    staleTime: Infinity,
+    retry: false,
+  });
+  // console.log(data);
+  // console.log(error);
   function handleChange(e) {
     setUserDetails({
       ...userDetails,
