@@ -15,6 +15,7 @@ import { Button } from "@/components/ui/button";
 import { useQuery } from "react-query";
 import axios from "axios";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export function Register() {
   const [userDetails, setUserDetails] = useState({
@@ -22,21 +23,24 @@ export function Register() {
     email: "",
     password: "",
   });
-
+  const navigate = useNavigate();
   const userRegisterApi = async (userRegisterData) => {
     const res = await axios.post("/api/auth/register", { ...userRegisterData });
-    console.log(...userRegisterData);
+
     return res;
   };
   const { data, refetch, error } = useQuery({
     queryKey: ["user_register"],
     queryFn: () => userRegisterApi(userDetails),
     enabled: false,
-    staleTime: Infinity,
-    retry: false,
+    retry: 2,
   });
-  // console.log(data);
-  // console.log(error);
+
+  function handleSignUp() {
+    refetch();
+    setUserDetails({ username: "", email: "", password: "" });
+    navigate("/login");
+  }
   function handleChange(e) {
     setUserDetails({
       ...userDetails,
@@ -85,7 +89,7 @@ export function Register() {
         </CardContent>
         <CardFooter className="flex flex-row-reverse">
           {/* <Button variant="outline">Cancel</Button> */}
-          <Button onClick={refetch}>Sign Up</Button>
+          <Button onClick={handleSignUp}>Sign Up</Button>
         </CardFooter>
       </Card>
     </div>
