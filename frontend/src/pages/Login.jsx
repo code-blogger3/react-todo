@@ -45,20 +45,16 @@ export function Login() {
       const result = data.data;
       return result;
     },
-    // retry: 2,
+    retry: 2,
   });
 
   function handleSignIn() {
     refetch();
 
-    dispatch(signInUser(data.data.userDoc));
+    dispatch(signInUser(data?.data?.userDoc));
     setUserDetails({ username: "", email: "", password: "" });
     navigate("/");
   }
-
-  // console.log(data.data.userDoc);
-  // console.log(data.data);
-  // console.log(data);
 
   function handleChange(e) {
     setUserDetails({

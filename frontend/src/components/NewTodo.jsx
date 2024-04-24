@@ -25,8 +25,8 @@ function NewTodo({ setOpenModal }) {
   const dispatch = useDispatch();
   const [state, dispatcher] = useReducer(todoReducer, initialState);
 
-  const [localPriorityInputDisable, setLocalPriorityInputDisable] =
-    useState(false);
+  // const [localPriorityInputDisable, setLocalPriorityInputDisable] =
+  //   useState(false);
 
   const [advanceMode, setAdvanceMode] = useState(
     localStorage.getItem("advanceMode") === "true" ? true : false
@@ -36,14 +36,13 @@ function NewTodo({ setOpenModal }) {
     localStorage.setItem("advanceMode", advanceMode);
   }, [advanceMode]);
 
-  const randomId = () => Math.random().toString(36).substr(2, 10);
-  // console.log(state);
+  // const randomId = () => Math.random().toString(36).substr(2, 10);
+
   //+numbers are stored as string in state
   const resetFields = () =>
     dispatcher({ type: ACTIONS.CLEAR_FIELDS, payload: initialState });
   function createTodo() {
-    // console.log("Creating todo", state);
-    dispatch(addTodo({ ...state, id: randomId() }));
+    // dispatch(addTodo({ ...state, id: randomId() }));
     resetFields();
     setOpenModal(false);
   }
@@ -155,7 +154,7 @@ function NewTodo({ setOpenModal }) {
                 type="number"
                 name="localPriorityNum"
                 onChange={handleChangeInput}
-                disabled={localPriorityInputDisable}
+                // disabled={localPriorityInputDisable}
                 placeholder="Assign local priority value"
                 className="mt-2 mb-2"
               />

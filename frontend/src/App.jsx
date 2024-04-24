@@ -7,6 +7,7 @@ import { Register } from "./pages/Register";
 import { Login } from "./pages/Login";
 import { useDispatch } from "react-redux";
 import { useEffect } from "react";
+import { signInUser } from "./redux/user/userSlice";
 
 function App() {
   const Layout = () => {
@@ -14,7 +15,7 @@ function App() {
     const user = JSON.parse(localStorage.getItem("todo's_user"));
     useEffect(() => {
       if (user) {
-        dispatch(setUser(user));
+        dispatch(signInUser(user));
       }
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
