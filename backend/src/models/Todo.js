@@ -9,7 +9,7 @@ const TodoSchema = new mongoose.Schema({
   localPriorityCategory: String,
   globalPriorityCategory: String,
   globalPriorityNum: { type: Number, default: 0 },
-  useRef: { type: String, required: true },
+  userRef: { type: String, required: true },
 });
 
 export const TodoModel = mongoose.model("Todo", TodoSchema);

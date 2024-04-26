@@ -1,5 +1,6 @@
 import { TodoModel } from "../models/Todo.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
+import { ApiError } from "../utils/ApiError.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
 
 const sendUserTodos = asyncHandler(async (req, res) => {
@@ -32,4 +33,33 @@ const postUserTodos = asyncHandler(async (req, res) => {
   res.json(new ApiResponse(200, "todo posted successfully", result));
 });
 
-export { sendUserTodos, postUserTodos };
+const deleteUserTodo = asyncHandler(async (req, res) => {
+  const todoID = req.params.todoID;
+
+  const result = await TodoModel.deleteOne({ _id: todoID });
+
+  if (result.deletedCount > 0) {
+    // Document was deleted successfully
+    res.json(new ApiResponse(200, "todo deleted successfully."));
+  } else {
+    // No matching document found
+    res.json(new ApiError(404, "todo not found."));
+  }
+});
+
+const updateUserTodo = asyncHandler(async (req, res) => {
+  const todoID = req.params.todoID;
+
+  const todo = await TodoModel.findById(todoID);
+  if (!todo) {
+    res.json(new ApiError(404, "todo not found"));
+  }
+
+  const updatedTodo = await TodoModel.findByIdAndUpdate(todoID, req.body, {
+    new: true,
+  });
+
+  res.json(new ApiResponse(200, "todo updated successfully", updatedTodo));
+});
+
+export { sendUserTodos, postUserTodos, deleteUserTodo, updateUserTodo };
