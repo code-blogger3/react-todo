@@ -1,6 +1,6 @@
 import React, { useEffect, useReducer, useRef } from "react";
 import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { addTodo } from "../redux/todo/todoSlice";
 import { Input } from "./ui/input";
 import { Button } from "./ui/button";
@@ -20,13 +20,20 @@ import {
   todoReducer,
 } from "@/utils/newTodoHelper";
 import { Card } from "./ui/card";
+import { useMutation } from "react-query";
+import axios from "axios";
 
 function NewTodo({ setOpenModal }) {
   const dispatch = useDispatch();
+  const { user } = useSelector((state) => state.user);
   const [state, dispatcher] = useReducer(todoReducer, initialState);
 
   // const [localPriorityInputDisable, setLocalPriorityInputDisable] =
   //   useState(false);
+
+  // const randomId = () => Math.random().toString(36).substr(2, 10);
+
+  //+numbers are stored as string in state
 
   const [advanceMode, setAdvanceMode] = useState(
     localStorage.getItem("advanceMode") === "true" ? true : false
@@ -36,15 +43,42 @@ function NewTodo({ setOpenModal }) {
     localStorage.setItem("advanceMode", advanceMode);
   }, [advanceMode]);
 
-  // const randomId = () => Math.random().toString(36).substr(2, 10);
+  const postTodoApi = async (todoDetails) => {
+    const res = await axios.post("/api/todo/post", {
+      ...todoDetails,
+      userRef: user?._id,
+    });
+    const todoData = res?.data?.data;
+    // console.log(todoData);
+    dispatch(addTodo({ todoData }));
+    return res;
+  };
 
-  //+numbers are stored as string in state
+  const { data, mutate } = useMutation({
+    mutationKey: ["create_todo"],
+    mutationFn: postTodoApi,
+  });
+
+  // const { data, refetch } = useQuery({
+  //   queryKey: ["create_todo"],
+  //   queryFn: () => postTodoApi(state),
+  //   enabled: false,
+  //   select: (data) => {
+  //     const result = data.data;
+  //     return result;
+  //   },
+  //   retry: 2,
+  // });
+
   const resetFields = () =>
     dispatcher({ type: ACTIONS.CLEAR_FIELDS, payload: initialState });
+
   function createTodo() {
     // dispatch(addTodo({ ...state, id: randomId() }));
+    mutate(state);
     resetFields();
-    setOpenModal(false);
+
+    // setOpenModal(false);
   }
 
   const handleChangeInput = (e) => {

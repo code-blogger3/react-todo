@@ -2,14 +2,18 @@ import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import TodoTable from "./TodoTable";
 import { columns } from "./columns";
+import { useGetTodoList } from "@/hooks/useGetTodoList";
 
 function TodoList() {
   const { todos } = useSelector((state) => state.todo);
-  const [todosList, setTodoList] = useState(todos);
+  const { user } = useSelector((state) => state.user);
+  const { data } = useGetTodoList(user?._id);
+  const [todosList, setTodoList] = useState(data);
+  console.log(data);
 
   useEffect(() => {
-    setTodoList(todos);
-  }, [todos]);
+    setTodoList(data);
+  }, [data]);
 
   return (
     <section className="mt-6 mx-5">

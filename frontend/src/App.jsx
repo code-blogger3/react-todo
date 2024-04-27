@@ -8,6 +8,7 @@ import { Login } from "./pages/Login";
 import { useDispatch } from "react-redux";
 import { useEffect } from "react";
 import { signInUser } from "./redux/user/userSlice";
+import { useQuery } from "react-query";
 
 function App() {
   const Layout = () => {
@@ -19,6 +20,7 @@ function App() {
       }
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
+
     return (
       <>
         <Navbar />

@@ -1,5 +1,4 @@
 const initialState = {
-  id: "",
   name: "",
   completed: false,
   importantUrgentCategory: "None",

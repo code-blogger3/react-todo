@@ -2,7 +2,6 @@
 import {
   Card,
   CardContent,
-  CardDescription,
   CardFooter,
   CardHeader,
   CardTitle,
@@ -13,14 +12,13 @@ import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useQuery } from "react-query";
+import { useMutation } from "react-query";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { signInUser } from "@/redux/user/userSlice";
 
 export function Login() {
   const { user } = useSelector((state) => state.user);
-  console.log(user);
   const [userDetails, setUserDetails] = useState({
     username: "",
     email: "",
@@ -33,25 +31,32 @@ export function Login() {
     const res = await axios.post("/api/auth/login", {
       ...userLoginData,
     });
+    const data = res?.data?.data;
 
-    return res;
+    dispatch(signInUser(res?.data?.data?.userDoc));
+    return data;
   };
+  // console.log(user);
 
-  const { data, refetch, error } = useQuery({
-    queryKey: ["user_login"],
-    queryFn: () => userLoginApi(userDetails),
-    enabled: false,
-    select: (data) => {
-      const result = data.data;
-      return result;
-    },
-    retry: 2,
+  const { mutate } = useMutation({
+    mutationKey: ["user_login"],
+    mutationFn: userLoginApi,
   });
 
-  function handleSignIn() {
-    refetch();
+  // const { data, refetch, error } = useQuery({
+  //   queryKey: ["user_login"],
+  //   queryFn: () => userLoginApi(userDetails),
+  //   enabled: false,
+  //   select: (data) => {
+  //     const result = data.data;
+  //     return result;
+  //   },
+  //   retry: 2,
+  // });
 
-    dispatch(signInUser(data?.data?.userDoc));
+  function handleSignIn() {
+    mutate(userDetails);
+
     setUserDetails({ username: "", email: "", password: "" });
     navigate("/");
   }

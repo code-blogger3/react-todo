@@ -86,7 +86,7 @@ export const columns = [
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Action</DropdownMenuLabel>
-            <DropdownMenuItem onClick={() => dispatch(removeTodo(todo.id))}>
+            <DropdownMenuItem onClick={() => dispatch(removeTodo(todo._id))}>
               Delete
             </DropdownMenuItem>
           </DropdownMenuContent>
