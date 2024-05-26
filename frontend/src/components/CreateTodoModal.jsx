@@ -28,7 +28,7 @@ export function CreateTodoModal() {
           </Button>
         </AlertDialogTrigger>
         <AlertDialogContent>
-          <NewTodo setOpenModal={setOpenModal} />
+          <NewTodo setOpenModal={setOpenModal} modal />
           <AlertDialogFooter>
             <AlertDialogCancel onClick={() => setOpenModal(false)}>
               Cancel

@@ -23,7 +23,7 @@ import { Card } from "./ui/card";
 import { useMutation } from "react-query";
 import axios from "axios";
 
-function NewTodo({ setOpenModal }) {
+function NewTodo({ setOpenModal, modal }) {
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.user);
   const [state, dispatcher] = useReducer(todoReducer, initialState);
@@ -77,8 +77,9 @@ function NewTodo({ setOpenModal }) {
     // dispatch(addTodo({ ...state, id: randomId() }));
     mutate(state);
     resetFields();
-
-    // setOpenModal(false);
+    if (modal) {
+      setOpenModal(false);
+    }
   }
 
   const handleChangeInput = (e) => {

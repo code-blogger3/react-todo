@@ -7,9 +7,8 @@ import { useGetTodoList } from "@/hooks/useGetTodoList";
 function TodoList() {
   const { todos } = useSelector((state) => state.todo);
   const { user } = useSelector((state) => state.user);
-  const { data } = useGetTodoList(user?._id);
+  const { data, isLoading } = useGetTodoList(user?._id);
   const [todosList, setTodoList] = useState(data);
-  console.log(data);
 
   useEffect(() => {
     setTodoList(data);
@@ -17,7 +16,12 @@ function TodoList() {
 
   return (
     <section className="mt-6 mx-5">
-      <TodoTable columns={columns} data={todosList} setData={setTodoList} />
+      <TodoTable
+        columns={columns}
+        data={todosList}
+        setData={setTodoList}
+        isLoading={isLoading}
+      />
     </section>
   );
 }

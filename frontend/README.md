@@ -13,6 +13,8 @@ todo:
 - completed todo crossed
 - del icon to delete
 
+in TodoList todosList={todosList} isLoading={isLoading} is not passed as props cause it also need setTodoList
+
 good to have:
 priority lable
 

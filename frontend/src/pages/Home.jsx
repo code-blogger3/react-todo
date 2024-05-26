@@ -1,21 +1,25 @@
 import { CreateTodoModal } from "@/components/CreateTodoModal";
 import EisenhowerMatrix from "@/components/EisenhowerMatrix";
+import GalleryView from "@/components/GalleryView";
 import TodoList from "@/components/TodoList";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { useGetTodoList } from "@/hooks/useGetTodoList";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 
 function Home() {
   const { todos } = useSelector((state) => state.todo);
-  const [todosList, setTodoList] = useState(todos);
-
-  // console.log(todosList);
+  const { user } = useSelector((state) => state.user);
+  const { data, isLoading } = useGetTodoList(user?._id);
+  const [todosList, setTodoList] = useState(data);
 
   useEffect(() => {
-    setTodoList(todos);
-  }, [todos]);
+    setTodoList(data);
+  }, [data]);
+
+  console.log(todosList);
 
   return (
     <>
@@ -28,22 +32,7 @@ function Home() {
             <TabsTrigger value="matrixView">Matrix View</TabsTrigger>
           </TabsList>
           <TabsContent value="galleryView">
-            <section className="flex flex-wrap gap-3 mx-14 mt-[3rem]">
-              {todosList.map((todo) => (
-                <Card className="w-[250px] border border-sky-700" key={todo.id}>
-                  <CardHeader>
-                    <CardTitle className="text-center">{todo?.name}</CardTitle>
-                  </CardHeader>
-                  <hr className="w-[200px] mx-7" />
-                  <CardContent className="flex flex-col">
-                    <span>Category : {todo.todoCategory}</span>
-                    <span>Status : {todo.importantUrgentCategory}</span>
-                    <span>Local Priority : {todo.localPriorityNum}</span>
-                    <span>Global Priority : {todo.globalPriorityNum}</span>
-                  </CardContent>
-                </Card>
-              ))}
-            </section>
+            <GalleryView todosList={todosList} isLoading={isLoading} />
           </TabsContent>
           <TabsContent value="tableView">
             <section className="mx-14">
@@ -51,7 +40,7 @@ function Home() {
             </section>
           </TabsContent>
           <TabsContent value="matrixView">
-            <EisenhowerMatrix />
+            <EisenhowerMatrix data={todosList} isLoading={isLoading} />
           </TabsContent>
         </Tabs>
       </div>

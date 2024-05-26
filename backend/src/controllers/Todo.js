@@ -14,7 +14,7 @@ const sendUserTodos = asyncHandler(async (req, res) => {
   if (todos.length > 0) {
     return res.json(new ApiResponse(200, "todos are send", todos));
   } else {
-    return res.json(new ApiResponse(200, "no todos found"));
+    return res.json(new ApiError(204, "no todos found"));
   }
 });
 

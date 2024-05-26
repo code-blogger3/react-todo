@@ -33,7 +33,7 @@ import {
   PaginationPrevious,
 } from "./ui/pagination";
 
-function TodoTable({ columns, data, setData }) {
+function TodoTable({ columns, data, setData, isLoading }) {
   // console.log(todos);
   const [sorting, setSorting] = useState([]);
   const [columnFilters, setColumnFilters] = useState([]);
@@ -77,6 +77,15 @@ function TodoTable({ columns, data, setData }) {
         ),
     },
   });
+
+  if (isLoading) {
+    return <>Loading...</>;
+  }
+  if (data == null) {
+    return <>no data</>;
+  }
+
+  console.log(data);
 
   return (
     <>

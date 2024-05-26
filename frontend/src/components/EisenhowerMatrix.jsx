@@ -3,9 +3,9 @@ import { useSelector } from "react-redux";
 import MatrixList from "./MatrixList";
 import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
 
-function EisenhowerMatrix() {
+function EisenhowerMatrix({ data, isLoading }) {
   const { todos } = useSelector((state) => state.todo);
-  const [todosList, setTodoList] = useState(todos);
+  const [todosList, setTodoList] = useState(data);
   // console.log(todosList);
   const importantUrgentList = todosList.filter(
     (todo) => todo.importantUrgentCategory == "importantUrgent"
@@ -22,8 +22,15 @@ function EisenhowerMatrix() {
   );
 
   useEffect(() => {
-    setTodoList(todos);
-  }, [todos]);
+    setTodoList(data);
+  }, [data]);
+
+  if (isLoading) {
+    return <>Loading...</>;
+  }
+  if (data == null) {
+    return <>no data</>;
+  }
   return (
     <section className="max-w-sm mx-auto md:grid md:grid-cols-2 md:max-w-[750px] lg:max-w-5xl">
       <div>
