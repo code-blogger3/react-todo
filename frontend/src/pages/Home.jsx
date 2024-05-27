@@ -19,7 +19,12 @@ function Home() {
     // refetch();
     setTodoList(data);
   }, [data]);
-
+  // if (isLoading) {
+  //   return <>Loading...</>;
+  // }
+  // if (data == null) {
+  //   return <>no data</>;
+  // }
   return (
     <>
       <div className=" pt-[66px]">
@@ -31,7 +36,11 @@ function Home() {
             <TabsTrigger value="matrixView">Matrix View</TabsTrigger>
           </TabsList>
           <TabsContent value="galleryView">
-            <GalleryView todosList={todosList} isLoading={isLoading} />
+            <GalleryView
+              todosList={todosList}
+              isLoading={isLoading}
+              refetch={refetch}
+            />
           </TabsContent>
           <TabsContent value="tableView">
             <section className="mx-14">

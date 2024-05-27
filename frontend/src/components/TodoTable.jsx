@@ -92,7 +92,7 @@ function TodoTable({ columns, data, setData, isLoading }) {
     return <>no data</>;
   }
 
-  console.log(data);
+  // console.log(data);
 
   return (
     <>
