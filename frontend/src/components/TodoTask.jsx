@@ -61,7 +61,8 @@ function TodoTask({ todo }) {
               </span>
             </label>
             <span className="flex gap-4">
-              <button onClick={() => dispatch(removeTodo(todo?.id))}>X</button>
+              {/* <button onClick={() => dispatch(removeTodo(todo?.id))}>X</button> */}
+              <button onClick={() => mutateDelete(todo?._id)}>X</button>
               <button onClick={() => setIsEditing((prev) => !prev)}>
                 update
               </button>

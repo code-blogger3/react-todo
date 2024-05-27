@@ -20,8 +20,6 @@ function Home() {
     setTodoList(data);
   }, [data]);
 
-  console.log(todosList);
-
   return (
     <>
       <div className=" pt-[66px]">
