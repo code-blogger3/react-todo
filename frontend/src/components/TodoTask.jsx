@@ -3,6 +3,8 @@ import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { Checkbox } from "./ui/checkbox";
 import { Input } from "./ui/input";
+import { useUpdateTodo } from "@/hooks/useUpdateTodo";
+import { useDeleteTodo } from "@/hooks/useDeleteTodo";
 
 function TodoTask({ todo }) {
   const [isEditing, setIsEditing] = useState(false);
@@ -10,18 +12,24 @@ function TodoTask({ todo }) {
   const [completed, setCompleted] = useState(todo?.completed);
 
   const dispatch = useDispatch();
-  const editTodo = (name) => {
-    dispatch(updateTodo({ id: todo?.id, name }));
+  const { mutate: mutateUpdate } = useUpdateTodo();
+  const { mutate: mutateDelete } = useDeleteTodo();
+
+  const editTodo = (todoID, name) => {
+    // dispatch(updateTodo({ id: todo?.id, name }));
+    mutateUpdate({ todoID, todoDetails: { name } });
+    console.log(todoID, name);
+
     setIsEditing((prev) => !prev);
   };
-  useEffect(() => {
-    dispatch(toggleTodo({ id: todo?.id, completed }));
-  }, [completed]);
+  // useEffect(() => {
+  //   dispatch(toggleTodo({ id: todo?.id, completed }));
+  // }, [completed]);
   return (
     <>
       <div className="">
         {isEditing ? (
-          <div className="flex gap-1 justify-between" key={todo?.id}>
+          <div className="flex gap-1 justify-between" key={todo?._id}>
             <Input
               type="text"
               className="border-sky-400"
@@ -29,14 +37,19 @@ function TodoTask({ todo }) {
               onChange={(e) => setEditTodoValue(e.target.value)}
             />
             <span className="flex gap-2">
-              <button onClick={() => editTodo(editTodoValue)}>Save</button>
+              <button onClick={() => editTodo(todo?._id, editTodoValue)}>
+                Save
+              </button>
               <button onClick={() => setIsEditing((prev) => !prev)}>
                 Cancel
               </button>
             </span>
           </div>
         ) : (
-          <div className="flex  gap-3 justify-between py-[9px] " key={todo?.id}>
+          <div
+            className="flex  gap-3 justify-between py-[9px] "
+            key={todo?._id}
+          >
             <label>
               <Checkbox
                 // className="items-baseline"

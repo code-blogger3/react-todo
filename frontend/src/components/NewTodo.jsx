@@ -20,7 +20,7 @@ import {
   todoReducer,
 } from "@/utils/newTodoHelper";
 import { Card } from "./ui/card";
-import { useMutation } from "react-query";
+import { useMutation, useQueryClient } from "react-query";
 import axios from "axios";
 
 function NewTodo({ setOpenModal, modal }) {
@@ -48,15 +48,18 @@ function NewTodo({ setOpenModal, modal }) {
       ...todoDetails,
       userRef: user?._id,
     });
-    const todoData = res?.data?.data;
+    // const todoData = res?.data?.data;
     // console.log(todoData);
-    dispatch(addTodo({ todoData }));
+    // dispatch(addTodo({ todoData }));
     return res;
   };
-
+  const queryClient = useQueryClient();
   const { data, mutate } = useMutation({
     mutationKey: ["create_todo"],
     mutationFn: postTodoApi,
+    onSuccess: () => {
+      queryClient.invalidateQueries(["get_todos"]);
+    },
   });
 
   const resetFields = () =>
