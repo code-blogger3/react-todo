@@ -65,15 +65,18 @@ function TodoTable({ columns, data, setData, isLoading }) {
     },
     meta: {
       updateData: (rowIndex, columnId, value) =>
-        setData((prev) =>
-          prev.map((row, index) =>
-            index === rowIndex
-              ? {
-                  ...prev[rowIndex],
-                  [columnId]: value,
-                }
-              : row
-          )
+        setData(
+          (
+            prev //Todo : connect to server data
+          ) =>
+            prev.map((row, index) =>
+              index === rowIndex
+                ? {
+                    ...prev[rowIndex],
+                    [columnId]: value,
+                  }
+                : row
+            )
         ),
     },
   });
@@ -181,9 +184,7 @@ function TodoTable({ columns, data, setData, isLoading }) {
             {table.getFilteredSelectedRowModel().rows.length} of{" "}
             {table.getFilteredRowModel().rows.length} row(s) selected.
           </div>
-          {/* <span className="block text-sm text-muted-foreground">
-            
-          </span> */}
+
           <div className="space-x-2">
             <Pagination>
               <PaginationContent>

@@ -12,10 +12,11 @@ import { useSelector } from "react-redux";
 function Home() {
   const { todos } = useSelector((state) => state.todo);
   const { user } = useSelector((state) => state.user);
-  const { data, isLoading } = useGetTodoList(user?._id);
+  const { data, isLoading, refetch } = useGetTodoList(user?._id);
   const [todosList, setTodoList] = useState(data);
 
   useEffect(() => {
+    // refetch();
     setTodoList(data);
   }, [data]);
 

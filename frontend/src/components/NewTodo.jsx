@@ -59,17 +59,6 @@ function NewTodo({ setOpenModal, modal }) {
     mutationFn: postTodoApi,
   });
 
-  // const { data, refetch } = useQuery({
-  //   queryKey: ["create_todo"],
-  //   queryFn: () => postTodoApi(state),
-  //   enabled: false,
-  //   select: (data) => {
-  //     const result = data.data;
-  //     return result;
-  //   },
-  //   retry: 2,
-  // });
-
   const resetFields = () =>
     dispatcher({ type: ACTIONS.CLEAR_FIELDS, payload: initialState });
 
@@ -104,13 +93,7 @@ function NewTodo({ setOpenModal, modal }) {
   const handleChangeLocCatSelect = (value) => {
     dispatcher({
       type: ACTIONS.CHANGE_INPUT,
-      payload: { name: "localPriorityCategory", value }, // Hardcode the name or pass it from the component
-    });
-  };
-  const handleChangeGloCatSelect = (value) => {
-    dispatcher({
-      type: ACTIONS.CHANGE_INPUT,
-      payload: { name: " globalPriorityCategory", value }, // Hardcode the name or pass it from the component
+      payload: { name: "PriorityText", value }, // Hardcode the name or pass it from the component
     });
   };
 
@@ -144,8 +127,6 @@ function NewTodo({ setOpenModal, modal }) {
           <Select
             name="todoCategory"
             id=""
-            value={state.todoCategory}
-            // defaultValue="none"
             onValueChange={handleChangeTodoCatSelect}
           >
             <SelectTrigger className="w-[280px]">
@@ -169,8 +150,6 @@ function NewTodo({ setOpenModal, modal }) {
                 name="importantUrgentCategory"
                 id=""
                 onValueChange={handleChangeImpUrgCatSelect}
-                value={state.importantUrgentCategory}
-                // defaultValue={state.importantUrgentCategory}
               >
                 <SelectTrigger className="w-[280px]">
                   <SelectValue placeholder="Select importance and urgency" />
@@ -187,10 +166,10 @@ function NewTodo({ setOpenModal, modal }) {
             <div>
               <Input
                 type="number"
-                name="localPriorityNum"
+                name="PriorityNum"
                 onChange={handleChangeInput}
                 // disabled={localPriorityInputDisable}
-                placeholder="Assign local priority value"
+                placeholder="Assign priority value"
                 className="mt-2 mb-2"
               />
               <Select
@@ -199,7 +178,7 @@ function NewTodo({ setOpenModal, modal }) {
                 onValueChange={handleChangeLocCatSelect}
               >
                 <SelectTrigger className="w-[280px]">
-                  <SelectValue placeholder="Select local priority" />
+                  <SelectValue placeholder="Select priority" />
                 </SelectTrigger>
                 <SelectContent>
                   {PriorityOptions.map((option) => (
@@ -209,32 +188,6 @@ function NewTodo({ setOpenModal, modal }) {
                   ))}
                 </SelectContent>
               </Select>
-
-              <div>
-                <Input
-                  type="number"
-                  name="globalPriorityNum"
-                  onChange={handleChangeInput}
-                  placeholder="Assign global priority value"
-                  className="mt-2 mb-2"
-                />
-                <Select
-                  name="globalPriorityText"
-                  id=""
-                  onValueChange={handleChangeGloCatSelect}
-                >
-                  <SelectTrigger className="w-[280px]">
-                    <SelectValue placeholder="Select glocal priority" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {PriorityOptions.map((option) => (
-                      <SelectItem key={option.value} value={option.value}>
-                        {option.label}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
             </div>
           </div>
         )}

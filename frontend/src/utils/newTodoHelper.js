@@ -3,10 +3,8 @@ const initialState = {
   completed: false,
   importantUrgentCategory: "None",
   todoCategory: "",
-  localPriorityCategory: "None",
-  localPriorityNum: 0,
-  globalPriorityCategory: "None",
-  globalPriorityNum: 0,
+  PriorityText: "None",
+  PriorityNum: 0,
 };
 
 const ACTIONS = {
