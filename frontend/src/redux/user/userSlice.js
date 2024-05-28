@@ -14,7 +14,7 @@ const userSlice = createSlice({
         JSON.stringify({ ...action.payload })
       );
     },
-    signOutUser: (state, action) => {
+    signOutUser: (state) => {
       state.user = null;
       localStorage.removeItem("todo's_user");
     },

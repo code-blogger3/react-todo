@@ -2,12 +2,11 @@ import React from "react";
 
 import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
 
-function GalleryView({ todosList, isLoading, refetch }) {
+function GalleryView({ todosList, isLoading }) {
   if (isLoading) {
     return <>Loading...</>;
   }
   if (todosList == null) {
-    refetch();
     return <>no data</>;
   }
   return (

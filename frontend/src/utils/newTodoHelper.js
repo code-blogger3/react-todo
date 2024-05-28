@@ -21,7 +21,7 @@ const todoReducer = (state, action) => {
       };
     case ACTIONS.CLEAR_FIELDS:
       return {
-        ...action.payload,
+        ...initialState,
       };
     default:
       return state;

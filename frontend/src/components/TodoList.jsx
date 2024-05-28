@@ -7,7 +7,7 @@ import { useGetTodoList } from "@/hooks/useGetTodoList";
 function TodoList() {
   const { todos } = useSelector((state) => state.todo);
   const { user } = useSelector((state) => state.user);
-  const { data, isLoading } = useGetTodoList(user?._id);
+  const { data, isLoading } = useGetTodoList();
   const [todosList, setTodoList] = useState(data);
 
   useEffect(() => {

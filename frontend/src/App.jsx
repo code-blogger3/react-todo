@@ -12,14 +12,14 @@ import { useQuery } from "react-query";
 
 function App() {
   const Layout = () => {
-    const dispatch = useDispatch();
-    const user = JSON.parse(localStorage.getItem("todo's_user"));
-    useEffect(() => {
-      if (user) {
-        dispatch(signInUser(user));
-      }
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    // const dispatch = useDispatch();
+    // const user = JSON.parse(localStorage.getItem("todo's_user"));
+    // useEffect(() => {
+    //   if (user) {
+    //     dispatch(signInUser(user));
+    //   }
+    //   // eslint-disable-next-line react-hooks/exhaustive-deps
+    // }, []);
 
     return (
       <>

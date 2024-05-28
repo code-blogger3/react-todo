@@ -57,7 +57,27 @@ function NewTodo({ setOpenModal, modal }) {
   const { data, mutate } = useMutation({
     mutationKey: ["create_todo"],
     mutationFn: postTodoApi,
-    onSuccess: () => {
+
+    onMutate: async (todoDetails) => {
+      await queryClient.cancelQueries(["get_todos"]);
+      const previousData = queryClient.getQueriesData(["get_todos"]);
+      queryClient.setQueryData(["get_todos"], (oldQueryData) => {
+        // console.log(oldQueryData);
+        return {
+          ...oldQueryData,
+          data: [
+            ...oldQueryData?.data.data,
+            { _id: oldQueryData.data.data.length + 1, ...todoDetails },
+          ],
+        };
+      });
+      return previousData;
+    },
+
+    onError: (_error, _todos, context) => {
+      queryClient.setQueryData(["get_todos", context.previousData]);
+    },
+    onSettled: () => {
       queryClient.invalidateQueries(["get_todos"]);
     },
   });

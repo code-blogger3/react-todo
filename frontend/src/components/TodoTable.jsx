@@ -32,7 +32,6 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "./ui/pagination";
-import { useUpdateTodo } from "@/hooks/useUpdateTodo";
 
 function TodoTable({ columns, data, setData, isLoading }) {
   // console.log(todos);
@@ -66,20 +65,15 @@ function TodoTable({ columns, data, setData, isLoading }) {
     },
     meta: {
       updateData: (rowIndex, columnId, value) => {
-        // console.log(columnId, value, rowIndex);
-        // console.log(data);
-        setData(
-          (
-            prev //Todo : connect to server data
-          ) =>
-            prev.map((row, index) =>
-              index === rowIndex
-                ? {
-                    ...prev[rowIndex],
-                    [columnId]: value,
-                  }
-                : row
-            )
+        setData((prev) =>
+          prev.map((row, index) =>
+            index === rowIndex
+              ? {
+                  ...prev[rowIndex],
+                  [columnId]: value,
+                }
+              : row
+          )
         );
       },
     },
