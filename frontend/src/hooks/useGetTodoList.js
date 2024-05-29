@@ -25,7 +25,7 @@ const useGetTodoList = () => {
     //   return result;
     // },
     select: (data) => {
-      const result = data?.data?.data;
+      const result = data?.data;
       return result;
     },
   });

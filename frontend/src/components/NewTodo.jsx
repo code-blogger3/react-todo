@@ -57,6 +57,9 @@ function NewTodo({ setOpenModal, modal }) {
   const { data, mutate } = useMutation({
     mutationKey: ["create_todo"],
     mutationFn: postTodoApi,
+    // onSuccess: () => {
+    //   queryClient.invalidateQueries(["get_todos"]);
+    // },
 
     onMutate: async (todoDetails) => {
       await queryClient.cancelQueries(["get_todos"]);
@@ -66,9 +69,10 @@ function NewTodo({ setOpenModal, modal }) {
           return oldQueryData;
         }
         // Ensure oldQueryData.data is an array before spreading
+
         const updatedTodos = [
-          ...oldQueryData.data.data,
-          { _id: oldQueryData.data.data.length + 1, ...todoDetails },
+          ...oldQueryData.data,
+          { _id: oldQueryData.data.length + 1, ...todoDetails },
         ];
 
         // Return the new state with the added todo

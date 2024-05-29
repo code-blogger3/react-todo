@@ -12,7 +12,8 @@ const sendUserTodos = asyncHandler(async (req, res) => {
   }); //sort with date
 
   if (todos.length > 0) {
-    return res.json(new ApiResponse(200, "todos are send", todos));
+    // return res.json(new ApiResponse(200, "todos are send", todos));
+    return res.json(todos);
   } else {
     return res.json(new ApiError(204, "no todos found"));
   }

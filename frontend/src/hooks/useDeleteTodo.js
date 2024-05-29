@@ -13,18 +13,20 @@ const useDeleteTodo = () => {
     // onSuccess: () => {
     //   queryClient.invalidateQueries(["get_todos"]);
     // },
-
     onMutate: async (todoID) => {
       await queryClient.cancelQueries(["get_todos"]);
       const previousData = queryClient.getQueriesData(["get_todos"]);
 
       queryClient.setQueryData(["get_todos"], (oldQueryData) => {
-        console.log(oldQueryData);
-        const filterTodoList = oldQueryData?.data?.data?.filter(
+        // console.log(oldQueryData);
+        if (!oldQueryData || !Array.isArray(oldQueryData.data)) {
+          return oldQueryData;
+        }
+
+        const filterTodoList = oldQueryData.data.filter(
           (todo) => todo._id !== todoID
         );
-        console.log(oldQueryData.data.data);
-        console.log(filterTodoList);
+
         return {
           ...oldQueryData,
           data: filterTodoList,
