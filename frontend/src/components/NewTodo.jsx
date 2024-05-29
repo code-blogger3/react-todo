@@ -62,13 +62,19 @@ function NewTodo({ setOpenModal, modal }) {
       await queryClient.cancelQueries(["get_todos"]);
       const previousData = queryClient.getQueriesData(["get_todos"]);
       queryClient.setQueryData(["get_todos"], (oldQueryData) => {
-        // console.log(oldQueryData);
+        if (!oldQueryData || !Array.isArray(oldQueryData.data)) {
+          return oldQueryData;
+        }
+        // Ensure oldQueryData.data is an array before spreading
+        const updatedTodos = [
+          ...oldQueryData.data.data,
+          { _id: oldQueryData.data.data.length + 1, ...todoDetails },
+        ];
+
+        // Return the new state with the added todo
         return {
           ...oldQueryData,
-          data: [
-            ...oldQueryData?.data.data,
-            { _id: oldQueryData.data.data.length + 1, ...todoDetails },
-          ],
+          data: updatedTodos,
         };
       });
       return previousData;

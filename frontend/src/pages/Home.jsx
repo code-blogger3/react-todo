@@ -29,7 +29,7 @@ function Home() {
             <TabsTrigger value="matrixView">Matrix View</TabsTrigger>
           </TabsList>
           <TabsContent value="galleryView">
-            <GalleryView todosList={todosList} isLoading={isLoading} />
+            <GalleryView todosList={data} isLoading={isLoading} />
           </TabsContent>
           <TabsContent value="tableView">
             <section className="mx-14">
