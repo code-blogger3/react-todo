@@ -20,18 +20,13 @@ import {
   todoReducer,
 } from "@/utils/newTodoHelper";
 import { Card } from "./ui/card";
-import { useMutation, useQueryClient } from "react-query";
-import axios from "axios";
+import { usePostTodo } from "@/hooks/usePostTodo";
 
 function NewTodo({ setOpenModal, modal }) {
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.user);
   const [state, dispatcher] = useReducer(todoReducer, initialState);
-
-  // const [localPriorityInputDisable, setLocalPriorityInputDisable] =
-  //   useState(false);
-
-  // const randomId = () => Math.random().toString(36).substr(2, 10);
+  const { mutate: mutatePost } = usePostTodo();
 
   //+numbers are stored as string in state
 
@@ -43,61 +38,12 @@ function NewTodo({ setOpenModal, modal }) {
     localStorage.setItem("advanceMode", advanceMode);
   }, [advanceMode]);
 
-  const postTodoApi = async (todoDetails) => {
-    const res = await axios.post("/api/todo/post", {
-      ...todoDetails,
-      userRef: user?._id,
-    });
-    // const todoData = res?.data?.data;
-    // console.log(todoData);
-    // dispatch(addTodo({ todoData }));
-    return res;
-  };
-  const queryClient = useQueryClient();
-  const { data, mutate } = useMutation({
-    mutationKey: ["create_todo"],
-    mutationFn: postTodoApi,
-    // onSuccess: () => {
-    //   queryClient.invalidateQueries(["get_todos"]);
-    // },
-
-    onMutate: async (todoDetails) => {
-      await queryClient.cancelQueries(["get_todos"]);
-      const previousData = queryClient.getQueriesData(["get_todos"]);
-      queryClient.setQueryData(["get_todos"], (oldQueryData) => {
-        if (!oldQueryData || !Array.isArray(oldQueryData.data)) {
-          return oldQueryData;
-        }
-        // Ensure oldQueryData.data is an array before spreading
-
-        const updatedTodos = [
-          ...oldQueryData.data,
-          { _id: oldQueryData.data.length + 1, ...todoDetails },
-        ];
-
-        // Return the new state with the added todo
-        return {
-          ...oldQueryData,
-          data: updatedTodos,
-        };
-      });
-      return previousData;
-    },
-
-    onError: (_error, _todos, context) => {
-      queryClient.setQueryData(["get_todos", context.previousData]);
-    },
-    onSettled: () => {
-      queryClient.invalidateQueries(["get_todos"]);
-    },
-  });
-
   const resetFields = () =>
     dispatcher({ type: ACTIONS.CLEAR_FIELDS, payload: initialState });
 
   function createTodo() {
     // dispatch(addTodo({ ...state, id: randomId() }));
-    mutate(state);
+    mutatePost(state);
     resetFields();
     if (modal) {
       setOpenModal(false);
@@ -183,6 +129,7 @@ function NewTodo({ setOpenModal, modal }) {
                 name="importantUrgentCategory"
                 id=""
                 onValueChange={handleChangeImpUrgCatSelect}
+                // value={state?.importantUrgentCategory || "None"}
               >
                 <SelectTrigger className="w-[280px]">
                   <SelectValue placeholder="Select importance and urgency" />

@@ -18,9 +18,13 @@ function TodoTask({ todo }) {
   const editTodo = (todoID, name) => {
     // dispatch(updateTodo({ id: todo?.id, name }));
     mutateUpdate({ todoID, todoDetails: { name } });
-    console.log(todoID, name);
 
     setIsEditing((prev) => !prev);
+  };
+
+  const toggleCompleteTodo = (todoID, completed) => {
+    mutateUpdate({ todoID, todoDetails: { completed } });
+    setCompleted((prev) => !prev);
   };
   // useEffect(() => {
   //   dispatch(toggleTodo({ id: todo?.id, completed }));
@@ -54,7 +58,8 @@ function TodoTask({ todo }) {
               <Checkbox
                 // className="items-baseline"
                 checked={completed}
-                onCheckedChange={() => setCompleted((prev) => !prev)}
+                onCheckedChange={() => toggleCompleteTodo(todo._id, !completed)}
+                // onCheckedChange={() => }
               />
               <span className={`p-3 ${completed ? "line-through" : ""}`}>
                 {todo?.name}

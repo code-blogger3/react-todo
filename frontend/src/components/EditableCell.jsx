@@ -20,12 +20,14 @@ function EditableCell({ getValue, row, column, table }) {
     // dispatch(updateTodo({ id: row.original?.id, name: value }));
   };
   return (
-    <Input
-      value={value}
-      className="border-none"
-      onChange={(e) => setValue(e.target.value)}
-      onBlur={onBlur}
-    />
+    <>
+      <Input
+        value={value}
+        className="border-none"
+        onChange={(e) => setValue(e.target.value)}
+        onBlur={onBlur}
+      />
+    </>
   );
 }
 

@@ -29,13 +29,18 @@ export const columns = [
         aria-label="Select all"
       />
     ),
-    cell: ({ row }) => (
-      <Checkbox
-        checked={row.getIsSelected()}
-        onCheckedChange={(value) => row.toggleSelected(!!value)}
-        aria-label="Select row"
-      />
-    ),
+    cell: ({ row }) => {
+      return (
+        <Checkbox
+          // checked={row.original.completed}
+          checked={row.getIsSelected()}
+          onCheckedChange={(value) => {
+            row.toggleSelected(!!value);
+          }}
+          aria-label="Select row"
+        />
+      );
+    },
     enableSorting: false,
     enableHiding: false,
   },
@@ -66,8 +71,16 @@ export const columns = [
     header: "Important / Urgent",
   },
   {
-    accessorKey: "localPriorityNum",
-    header: "local priority",
+    accessorKey: "PriorityNum",
+    header: "priority",
+  },
+  {
+    accessorKey: "completed",
+    header: "status",
+    cell: ({ row }) => {
+      const completed = row.original.completed;
+      return <>{completed ? <>completed</> : <>incomplete</>}</>;
+    },
   },
 
   {

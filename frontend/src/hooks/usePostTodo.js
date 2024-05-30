@@ -1,32 +1,36 @@
-import axios from "axios";
 import { useMutation, useQueryClient } from "react-query";
+import axios from "axios";
 
-const updateTodoApi = async (todoID, todoDetails) => {
-  return await axios.put(`/api/todo/update/${todoID}`, {
+const postTodoApi = async (todoDetails) => {
+  const res = await axios.post("/api/todo/post", {
     ...todoDetails,
+    userRef: user?._id,
   });
+  // const todoData = res?.data?.data;
+  // console.log(todoData);
+  // dispatch(addTodo({ todoData }));
+  return res;
 };
 
-const useUpdateTodo = () => {
+const usePostTodo = () => {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationKey: ["update_todo"],
-    mutationFn: ({ todoID, todoDetails }) => updateTodoApi(todoID, todoDetails),
+    mutationKey: ["create_todo"],
+    mutationFn: postTodoApi,
 
-    onMutate: async ({ todoID, todoDetails }) => {
+    onMutate: async (todoDetails) => {
       await queryClient.cancelQueries(["get_todos"]);
       const previousData = queryClient.getQueriesData(["get_todos"]);
       queryClient.setQueryData(["get_todos"], (oldQueryData) => {
         if (!oldQueryData || !Array.isArray(oldQueryData.data)) {
           return oldQueryData;
         }
+        // Ensure oldQueryData.data is an array before spreading
 
-        const updatedTodos = oldQueryData.data.map((todo) => {
-          if (todo._id === todoID) {
-            return { ...todo, ...todoDetails };
-          }
-          return todo;
-        });
+        const updatedTodos = [
+          ...oldQueryData.data,
+          { _id: oldQueryData.data.length + 1, ...todoDetails },
+        ];
 
         // Return the new state with the added todo
         return {
@@ -45,5 +49,4 @@ const useUpdateTodo = () => {
     },
   });
 };
-
-export { useUpdateTodo };
+export { usePostTodo };

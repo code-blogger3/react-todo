@@ -10,9 +10,7 @@ const useDeleteTodo = () => {
   return useMutation({
     mutationKey: ["delete_todo"],
     mutationFn: deleteTodoApi,
-    // onSuccess: () => {
-    //   queryClient.invalidateQueries(["get_todos"]);
-    // },
+
     onMutate: async (todoID) => {
       await queryClient.cancelQueries(["get_todos"]);
       const previousData = queryClient.getQueriesData(["get_todos"]);
