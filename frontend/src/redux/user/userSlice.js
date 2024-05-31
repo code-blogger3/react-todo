@@ -7,6 +7,9 @@ const userSlice = createSlice({
   name: "user",
   initialState,
   reducers: {
+    loadUserData: (state, action) => {
+      state.user = action.payload;
+    },
     signInUser: (state, action) => {
       state.user = action.payload;
       localStorage.setItem(
@@ -21,5 +24,5 @@ const userSlice = createSlice({
   },
 });
 
-export const { signInUser, signOutUser } = userSlice.actions;
+export const { signInUser, signOutUser, loadUserData } = userSlice.actions;
 export default userSlice.reducer;

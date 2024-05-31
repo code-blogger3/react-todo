@@ -7,16 +7,17 @@ import { Register } from "./pages/Register";
 import { Login } from "./pages/Login";
 import { useDispatch } from "react-redux";
 import { useEffect } from "react";
-import { signInUser } from "./redux/user/userSlice";
+import { loadUserData } from "./redux/user/userSlice";
 import { useQuery } from "react-query";
 
 function App() {
   const Layout = () => {
     const dispatch = useDispatch();
+
     const user = JSON.parse(localStorage.getItem("todo's_user"));
     useEffect(() => {
       if (user) {
-        dispatch(signInUser(user));
+        dispatch(loadUserData(user));
       }
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);

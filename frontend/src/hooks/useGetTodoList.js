@@ -1,11 +1,12 @@
 import axios from "axios";
 import { useQuery } from "react-query";
 
+const user = JSON.parse(localStorage.getItem("todo's_user"));
+
 const getTodoListApi = async (userID) => {
   return await axios.get(`/api/todo/get/${userID}`);
 };
 const useGetTodoList = () => {
-  const user = JSON.parse(localStorage.getItem("todo's_user"));
   return useQuery({
     queryKey: ["get_todos"],
     queryFn: () => getTodoListApi(user?._id),

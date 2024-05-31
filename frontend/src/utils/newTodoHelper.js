@@ -10,6 +10,7 @@ const initialState = {
 const ACTIONS = {
   CHANGE_INPUT: "CHANGE_INPUT",
   CLEAR_FIELDS: "CLEAR_FIELDS",
+  ADD_TODO_CATEGORY: "ADD_TODO_CATEGORY",
 };
 
 const todoReducer = (state, action) => {
@@ -19,6 +20,9 @@ const todoReducer = (state, action) => {
         ...state,
         [action.payload.name]: action.payload.value,
       };
+
+    case ACTIONS.ADD_TODO_CATEGORY:
+      return {};
     case ACTIONS.CLEAR_FIELDS:
       return {
         ...initialState,

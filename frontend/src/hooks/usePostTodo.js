@@ -1,6 +1,7 @@
 import { useMutation, useQueryClient } from "react-query";
 import axios from "axios";
 
+const user = JSON.parse(localStorage.getItem("todo's_user"));
 const postTodoApi = async (todoDetails) => {
   const res = await axios.post("/api/todo/post", {
     ...todoDetails,

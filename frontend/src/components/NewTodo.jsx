@@ -16,17 +16,30 @@ import {
   ImpUrgCategoryOptions,
   PriorityOptions,
   initialState,
-  todoCategoryOptions,
   todoReducer,
 } from "@/utils/newTodoHelper";
 import { Card } from "./ui/card";
 import { usePostTodo } from "@/hooks/usePostTodo";
+import { useAddTodoCategory } from "@/hooks/useAddTodoCategory";
+import { loadUserData } from "@/redux/user/userSlice";
 
 function NewTodo({ setOpenModal, modal }) {
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.user);
   const [state, dispatcher] = useReducer(todoReducer, initialState);
+  const [addTodoCatMode, setAddTodoCatMode] = useState(false);
+  const [newTodoCategory, setNewTodoCategory] = useState("");
   const { mutate: mutatePost } = usePostTodo();
+  const { data: NewUserData, mutate: mutateAddTodoCat } = useAddTodoCategory();
+  // console.log(user);
+  const [todoCategoryOptions, setTodoCategoryOptions] = useState(
+    user?.todoCategories
+  );
+  console.log(user?.todoCategories);
+
+  useEffect(() => {
+    setTodoCategoryOptions(user?.todoCategories);
+  }, [user]);
 
   //+numbers are stored as string in state
 
@@ -37,6 +50,12 @@ function NewTodo({ setOpenModal, modal }) {
   useEffect(() => {
     localStorage.setItem("advanceMode", advanceMode);
   }, [advanceMode]);
+
+  const addNewTodoCategory = () => {
+    mutateAddTodoCat(newTodoCategory);
+    dispatch(loadUserData(NewUserData.data));
+    setAddTodoCatMode(false);
+  };
 
   const resetFields = () =>
     dispatcher({ type: ACTIONS.CLEAR_FIELDS, payload: initialState });
@@ -78,8 +97,8 @@ function NewTodo({ setOpenModal, modal }) {
 
   return (
     <>
-      <Card className="p-4 mx-4">
-        <div className="flex w-full max-w-sm items-center space-x-2 md:max-w-md lg:max-w-lg">
+      <Card className="p-4 mx-4  ">
+        <div className="flex w-auto max-w-[44rem] justify-end items-center gap-5 ">
           <Input
             type="text"
             placeholder="Enter task"
@@ -88,51 +107,88 @@ function NewTodo({ setOpenModal, modal }) {
             value={state.name}
             onChange={handleChangeInput}
           />
-          <Button onClick={() => createTodo()}>Add</Button>
+          <Button className="px-7" onClick={createTodo}>
+            Add Task
+          </Button>
         </div>
 
-        <div className="">
-          <Input
-            type="text"
-            placeholder="Enter Category"
-            name="todoCategory"
-            id=""
-            className="my-2"
-            value={state.todoCategory}
-            onChange={handleChangeInput}
-            // defaultValue={state.todoCategory}
-          />
-
-          <Select
-            name="todoCategory"
-            id=""
-            onValueChange={handleChangeTodoCatSelect}
-          >
-            <SelectTrigger className="w-[280px]">
-              <SelectValue placeholder="Select a category" />
-              {/* <p>Select a category</p> */}
-            </SelectTrigger>
-            <SelectContent>
-              {todoCategoryOptions.map((option) => (
-                <SelectItem key={option.value} value={option.value}>
-                  {option.label}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
+        <div className="my-4">
+          {addTodoCatMode ? (
+            <>
+              <div className="flex w-auto max-w-[44rem] justify-end items-center gap-5">
+                <Input
+                  type="text"
+                  placeholder="Enter Category"
+                  name="todoCategory"
+                  id=""
+                  className=""
+                  value={newTodoCategory}
+                  onChange={(e) => setNewTodoCategory(e.target.value)}
+                  // defaultValue={state.todoCategory}
+                />
+                <Button onClick={() => addNewTodoCategory()}>
+                  Add Category
+                </Button>
+              </div>
+            </>
+          ) : (
+            <div className="flex items-center justify-center gap-7">
+              <span className="font-semibold">Select a category</span>
+              <Select
+                name="todoCategory"
+                id=""
+                onValueChange={handleChangeTodoCatSelect}
+              >
+                <SelectTrigger className="w-[29rem]">
+                  <SelectValue />
+                  {/* <SelectValue placeholder="Select a category" /> */}
+                  {/* <p>Select a category</p> */}
+                </SelectTrigger>
+                <SelectContent>
+                  {todoCategoryOptions?.map((option) => (
+                    <SelectItem key={option} value={option}>
+                      {option}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+              <Button
+                title="Add new todo category"
+                onClick={() => setAddTodoCatMode(true)}
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth={1.5}
+                  stroke="currentColor"
+                  className="size-6"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M12 4.5v15m7.5-7.5h-15"
+                  />
+                </svg>
+              </Button>
+            </div>
+          )}
         </div>
-        <br />
+        {/* <br /> */}
         {advanceMode && (
           <div>
-            <div>
+            <div className="flex items-center justify-center gap-6">
+              <span className="font-semibold">
+                Select importance and urgency
+              </span>
               <Select
                 name="importantUrgentCategory"
                 id=""
                 onValueChange={handleChangeImpUrgCatSelect}
-                // value={state?.importantUrgentCategory || "None"}
+                value={state.importantUrgentCategory}
               >
-                <SelectTrigger className="w-[280px]">
-                  <SelectValue placeholder="Select importance and urgency" />
+                <SelectTrigger className="w-[25rem]">
+                  <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
                   {ImpUrgCategoryOptions.map((option) => (
@@ -144,30 +200,40 @@ function NewTodo({ setOpenModal, modal }) {
               </Select>
             </div>
             <div>
-              <Input
-                type="number"
-                name="PriorityNum"
-                onChange={handleChangeInput}
-                // disabled={localPriorityInputDisable}
-                placeholder="Assign priority value"
-                className="mt-2 mb-2"
-              />
-              <Select
-                name="localPriorityText"
-                id=""
-                onValueChange={handleChangeLocCatSelect}
-              >
-                <SelectTrigger className="w-[280px]">
-                  <SelectValue placeholder="Select priority" />
-                </SelectTrigger>
-                <SelectContent>
-                  {PriorityOptions.map((option) => (
-                    <SelectItem key={option.value} value={option.value}>
-                      {option.label}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
+              <div className="flex items-center justify-center gap-6">
+                <span className="font-semibold">Assign priority value</span>
+                <Input
+                  type="number"
+                  name="PriorityNum"
+                  onChange={handleChangeInput}
+                  // disabled={localPriorityInputDisable}
+                  // placeholder=""
+
+                  className="mt-2 mb-2 w-[26rem]"
+                  value={state.PriorityNum}
+                />
+              </div>
+
+              <div className="flex items-center justify-center gap-7">
+                <span className="font-semibold">Select priority label</span>
+                <Select
+                  name="PriorityText"
+                  id=""
+                  onValueChange={handleChangeLocCatSelect}
+                  value={state.PriorityText}
+                >
+                  <SelectTrigger className="w-[28rem]">
+                    <SelectValue placeholder="" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {PriorityOptions.map((option) => (
+                      <SelectItem key={option.value} value={option.value}>
+                        {option.label}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
             </div>
           </div>
         )}
