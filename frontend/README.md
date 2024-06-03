@@ -22,6 +22,7 @@ npm i @reduxjs/toolkit
 npm i react-redux
 npm i redux-persist
 npm i react-router-dom
+npm i react-chartjs-2 chart.js
 
 npm i dotenv
 npm i express

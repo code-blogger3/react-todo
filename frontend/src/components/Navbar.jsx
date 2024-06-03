@@ -42,7 +42,7 @@ function Navbar() {
 
   return (
     <>
-      <nav className="fixed w-full px-7 mt-[15px] flex justify-between border border-l-sky-950 border-t-0 border-x-0 pb-2 bg-background">
+      <nav className="fixed w-full px-7 pt-[1rem] flex justify-between border border-l-sky-950 border-t-0 border-x-0 pb-2 bg-background sm:hidden">
         <NavigationMenu>
           <NavigationMenuList className="gap-5">
             <NavigationMenuItem
@@ -56,6 +56,12 @@ function Navbar() {
               onClick={() => navigate("/")}
             >
               Create Todo
+            </NavigationMenuItem>
+            <NavigationMenuItem
+              className={navigationMenuTriggerStyle()}
+              onClick={() => navigate("/dashboard")}
+            >
+              Dashboard
             </NavigationMenuItem>
           </NavigationMenuList>
         </NavigationMenu>

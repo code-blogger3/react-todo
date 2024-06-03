@@ -9,6 +9,7 @@ import { useDispatch } from "react-redux";
 import { useEffect } from "react";
 import { loadUserData } from "./redux/user/userSlice";
 import { useQuery } from "react-query";
+import Dashboard from "./pages/Dashboard";
 
 function App() {
   const Layout = () => {
@@ -46,6 +47,10 @@ function App() {
         {
           path: "/login",
           element: <Login />,
+        },
+        {
+          path: "/dashboard",
+          element: <Dashboard />,
         },
       ],
     },

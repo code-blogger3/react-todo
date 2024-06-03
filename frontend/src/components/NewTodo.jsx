@@ -35,7 +35,7 @@ function NewTodo({ setOpenModal, modal }) {
   //   user?.todoCategories
   // );
   const todoCategoryOptions = user?.todoCategories;
-  console.log(user?.todoCategories);
+  // console.log(user?.todoCategories);
 
   //+numbers are stored as string in state
 
