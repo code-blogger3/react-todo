@@ -31,15 +31,11 @@ function NewTodo({ setOpenModal, modal }) {
   const [newTodoCategory, setNewTodoCategory] = useState("");
   const { mutate: mutatePost } = usePostTodo();
   const { data: NewUserData, mutate: mutateAddTodoCat } = useAddTodoCategory();
-  // console.log(user);
-  const [todoCategoryOptions, setTodoCategoryOptions] = useState(
-    user?.todoCategories
-  );
+  // const [todoCategoryOptions, setTodoCategoryOptions] = useState(
+  //   user?.todoCategories
+  // );
+  const todoCategoryOptions = user?.todoCategories;
   console.log(user?.todoCategories);
-
-  useEffect(() => {
-    setTodoCategoryOptions(user?.todoCategories);
-  }, [user]);
 
   //+numbers are stored as string in state
 
@@ -140,7 +136,7 @@ function NewTodo({ setOpenModal, modal }) {
                 onValueChange={handleChangeTodoCatSelect}
               >
                 <SelectTrigger className="w-[29rem]">
-                  <SelectValue />
+                  <SelectValue defaultValue={"None"} />
                   {/* <SelectValue placeholder="Select a category" /> */}
                   {/* <p>Select a category</p> */}
                 </SelectTrigger>

@@ -2,7 +2,7 @@ const initialState = {
   name: "",
   completed: false,
   importantUrgentCategory: "None",
-  todoCategory: "",
+  todoCategory: "None",
   PriorityText: "None",
   PriorityNum: 0,
 };
