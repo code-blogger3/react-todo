@@ -31,8 +31,8 @@ export default function Dashboard() {
   };
   return (
     <>
-      <div className=" grid lg:grid-cols-12 gap-3">
-        <Card className="lg:col-span-7 mt-[91px] sm:w-68 ">
+      <div className=" grid grid-cols-12 l gap-3">
+        <Card className="mt-[91px] md:col-span-7 col-span-2">
           <CardContent>
             <Bar data={chartData} />
           </CardContent>
