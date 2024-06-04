@@ -15,6 +15,7 @@ import { useDispatch } from "react-redux";
 import { removeTodo } from "@/redux/todo/todoSlice";
 import EditableCell from "./EditableCell";
 import { useDeleteTodo } from "@/hooks/useDeleteTodo";
+import { useUpdateTodo } from "@/hooks/useUpdateTodo";
 
 export const columns = [
   {
@@ -89,7 +90,10 @@ export const columns = [
     cell: ({ row }) => {
       const dispatch = useDispatch();
       const todo = row.original;
+      const todoID = todo._id;
+      const completed = !todo.completed;
       const { mutate } = useDeleteTodo();
+      const { mutate: mutateUpdate } = useUpdateTodo();
 
       return (
         <DropdownMenu>
@@ -101,8 +105,15 @@ export const columns = [
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Action</DropdownMenuLabel>
-            <DropdownMenuItem onClick={() => mutate(todo._id)}>
+            <DropdownMenuItem onClick={() => mutate(todoID)}>
               Delete
+            </DropdownMenuItem>
+            <DropdownMenuItem
+              onClick={() =>
+                mutateUpdate({ todoID, todoDetails: { completed } })
+              }
+            >
+              Toggle complete
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

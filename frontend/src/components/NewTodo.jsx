@@ -31,11 +31,12 @@ function NewTodo({ setOpenModal, modal }) {
   const [newTodoCategory, setNewTodoCategory] = useState("");
   const { mutate: mutatePost } = usePostTodo();
   const { data: NewUserData, mutate: mutateAddTodoCat } = useAddTodoCategory();
-  // const [todoCategoryOptions, setTodoCategoryOptions] = useState(
-  //   user?.todoCategories
-  // );
-  const todoCategoryOptions = user?.todoCategories;
-  // console.log(user?.todoCategories);
+  const [todoCategoryOptions, setTodoCategoryOptions] = useState(
+    user?.todoCategories
+  );
+  useEffect(() => {
+    setTodoCategoryOptions(NewUserData?.data?.todoCategories);
+  }, [NewUserData]);
 
   //+numbers are stored as string in state
 
@@ -49,7 +50,7 @@ function NewTodo({ setOpenModal, modal }) {
 
   const addNewTodoCategory = () => {
     mutateAddTodoCat(newTodoCategory);
-    dispatch(loadUserData(NewUserData.data));
+    dispatch(loadUserData(NewUserData?.data));
     setAddTodoCatMode(false);
   };
 

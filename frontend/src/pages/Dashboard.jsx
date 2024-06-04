@@ -3,6 +3,8 @@ import { Chart as ChartJS, defaults } from "chart.js/auto";
 import { Bar } from "react-chartjs-2";
 import { Card, CardContent } from "@/components/ui/card";
 import { useGetTodoList } from "@/hooks/useGetTodoList";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Separator } from "@/components/ui/separator";
 
 export default function Dashboard() {
   const { data } = useGetTodoList();
@@ -31,12 +33,30 @@ export default function Dashboard() {
   };
   return (
     <>
-      <div className=" grid grid-cols-12 l gap-3">
-        <Card className="mt-[91px] md:col-span-7 col-span-2">
+      <div className=" grid grid-cols-12 gap-3">
+        <Card className="mt-[91px] md:col-span-8 col-span-12 mx-7">
           <CardContent>
             <Bar data={chartData} />
           </CardContent>
         </Card>
+        {/* <ScrollArea>
+          {data?.map((todo) => {
+            return todo.name;
+          })}
+        </ScrollArea> */}
+        <ScrollArea className="h-72  rounded-md border mt-[91px] md:col-span-4 mr-7">
+          <div className="p-4">
+            <h4 className="mb-4 text-sm font-medium leading-none">Todos</h4>
+            {data?.map((todo) => (
+              <>
+                <div key={todo._id} className="text-sm">
+                  {todo.name}
+                </div>
+                <Separator className="my-2" />
+              </>
+            ))}
+          </div>
+        </ScrollArea>
       </div>
     </>
   );
